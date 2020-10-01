@@ -7,52 +7,36 @@ public class Pergunta {
 	
 	private final String pergunta;
 	
-	private final boolean respostaBooleana; 
-	private final String respostaCerta; 
-	private final String respostasErradas[];
+	private final String respostas[];
+	private final int certa;
 	
-	
-	public Pergunta() {
-		// TODO: Quando TriviaApi estiver pronta
-	}
-	
-	public Pergunta(String categoria, String tipo, String dificuldade, String pergunta, boolean respostaBooleana,
-			String respostaCerta, String[] respostasErradas) {
+	public Pergunta(String categoria, String tipo, String dificuldade, String pergunta,
+			String[] respostas, int respostaCerta) {
 		this.categoria = categoria;
 		this.tipo = tipo;
 		this.dificuldade = dificuldade;
 		this.pergunta = pergunta;
-		this.respostaBooleana = respostaBooleana;
-		this.respostaCerta = respostaCerta;
-		this.respostasErradas = respostasErradas;
+		this.respostas = respostas;
+		this.certa = respostaCerta;
 	}
 
 	boolean responder(String resposta) {
-		if (resposta.equalsIgnoreCase(this.respostaCerta)) {
-			return true;
-		}
-		return false;
+		return resposta.equalsIgnoreCase(this.respostas[certa]); 
 	}
 	
-	boolean responder(boolean resposta) {
-		return resposta == this.respostaBooleana;
+	boolean responder(int indice) {
+		return this.certa == indice;
 	}
 	
 	public String toString() {
 		String resultado = 	"Pergunta: " + this.pergunta + "\n" + 
 							"Catergoria: " + this.categoria + "\n" + 
 							"Tipo: " + this.tipo + "\n" +
-							"Dificuldade: " + this.dificuldade + "\n";
-		
-		resultado += "Alternativas: ";
-		if (this.tipo.equals("boolean"))
-			resultado += this.respostaBooleana;
-		else {
-			resultado += this.respostaCerta;
-			for (String string : respostasErradas)
-				resultado += string;
-		}
-		return resultado; 
+							"Dificuldade: " + this.dificuldade + "\n" + 
+							"Alternativas:\n";
+		for (String string : respostas)
+			resultado += string + "\n";
+		return resultado;
 	}
 	
 	// Getters
