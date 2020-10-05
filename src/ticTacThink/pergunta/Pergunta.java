@@ -1,4 +1,4 @@
-package projeto_IP2;
+package ticTacThink.pergunta;
 
 public class Pergunta {
 	private final String categoria;
