@@ -35,12 +35,24 @@ public class Pergunta {
 							"Dificuldade: " + this.dificuldade + "\n" + 
 							"Alternativas:\n";
 		for (String string : respostas)
-			resultado += string + "\n";
+			resultado += "\t" + string + "\n";
 		return resultado;
 	}
 	
 	// Getters
 	public String getTipo() {
 		return tipo;
+	}
+	public String getCategoria() {
+		return categoria;
+	}
+	public String getDificuldade() {
+		return dificuldade;
+	}
+	public String getPergunta() {
+		return pergunta;
+	}
+	public String[] getRespostas() {
+		return respostas;
 	}
 }
