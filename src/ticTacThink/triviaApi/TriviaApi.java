@@ -1,6 +1,10 @@
 package ticTacThink.triviaApi;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import ticTacThink.pergunta.Pergunta;
 
@@ -40,6 +45,14 @@ public class TriviaApi {
 		if (useToken)
 			tokenDeSessao = pegarNovoToken();
 		
+	}
+	
+	public String[] getCategorias() {
+		Object[] obj = this.categoriasID.keySet().toArray();
+		String[] array = new String[obj.length];
+		for (int i = 0; i < array.length; i++)
+			array[i] = obj[i].toString();
+		return array;
 	}
 	
 	// MÉTODOS PRIVADOS
@@ -161,5 +174,67 @@ public class TriviaApi {
 	public ArrayList<Pergunta> baixarPerguntas(int quantidade) {
 		return baixarPerguntas(quantidade,null,null,null);
 	}
+	
+	public void salvarPerguntas(ArrayList<Pergunta> perguntas, boolean[] acertadas) {
+		int perguntaAtual = 0;
+		Gson gson = new Gson();
+		try {
+			for (Pergunta pergunta : perguntas) {
+				// Ajustando diretório
+				String path = "data/perguntas/";
+				File file = new File(path);
+				
+				// criando diretório
+				if (!file.isDirectory())
+					file.mkdirs();
+				
+				path += categoriasID.get(pergunta.getCategoria()) + ".json";
+				file = new File(path);
 
+				JsonObject json;
+				JsonArray array; // [aparições, acertos, erros]
+				
+				boolean arquivoExiste = file.exists();
+				if (arquivoExiste)
+					json = gson.fromJson(new FileReader(file), JsonObject.class); // lê
+				else
+					json = new JsonObject(); // cria
+												
+				boolean perguntaJaFeita = json.has(pergunta.getPergunta());
+				if (perguntaJaFeita) {
+					array = json.get(pergunta.getPergunta()).getAsJsonArray(); // pega					
+				} else { 
+					array = new JsonArray(); // cria
+					array.add(0);
+					array.add(0);
+					array.add(0);
+				}
+				
+				int aparicoes = array.get(0).getAsInt();
+				int acertos = array.get(1).getAsInt();
+				int erros = array.get(2).getAsInt(); 
+				
+				// atualizando valores
+				aparicoes++; 
+				if (acertadas[perguntaAtual])
+					acertos++;
+				else
+					erros++;
+				
+				// enviando para o array
+				array.set(0, new JsonPrimitive(aparicoes));				
+				array.set(1, new JsonPrimitive(acertos));
+				array.set(2, new JsonPrimitive(erros));
+				
+				// Adicionando pergunta e valores
+				json.add(pergunta.getPergunta(), array);
+				try (FileWriter writer = new FileWriter(file)){
+					gson.toJson(json, writer);
+				}
+				perguntaAtual++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
