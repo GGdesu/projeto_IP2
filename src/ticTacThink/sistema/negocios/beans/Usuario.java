@@ -1,21 +1,44 @@
-package projeto_IP2;
+package ticTacThink.sistema.negocios.beans;
 
 public class Usuario {
 	//ATRIBUTOS
 	private String nome;
 	private String senha;
 	private String email;
-	private int pontuacao;
+	private int pontuacao = 0;
 	private String pais;
 	private String genero;
 	private int idade;
 
 	//CONSTRUCTOR
-	public Usuario() {
+	public Usuario(String nome, String senha, String email, String pais, String genero, String idade) {
+		this.nome = nome;
+		this.senha = senha;
+		this.email = email;
+		this.pais = pais;
+		this.genero = genero;
+		this.idade = Integer.parseInt(idade);
+	}
+
+
+	@Override
+	public boolean equals(Object objUsuario) {
+		Usuario usuario = (Usuario) objUsuario;
+		
+		if(usuario != null) {
+			if(this.email.equals(usuario.getEmail())) {
+				return true;
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
 		
 	}
 
-	
+
+
 	//METODOS GET E SET
 	public String getNome() {
 		return nome;
