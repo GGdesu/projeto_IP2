@@ -1,4 +1,4 @@
-package ticTacThink.triviaApi;
+package ticTacThink.dados;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import ticTacThink.pergunta.Pergunta;
+import ticTacThink.aplicacao.beans.Pergunta;
 
 public class TriviaApi {
 	
@@ -48,11 +48,8 @@ public class TriviaApi {
 	}
 	
 	public String[] getCategorias() {
-		Object[] obj = this.categoriasID.keySet().toArray();
-		String[] array = new String[obj.length];
-		for (int i = 0; i < array.length; i++)
-			array[i] = obj[i].toString();
-		return array;
+		String[] strings = new String[this.categoriasID.size()];
+		return this.categoriasID.keySet().toArray(strings);
 	}
 	
 	// MÉTODOS PRIVADOS
