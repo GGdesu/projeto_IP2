@@ -1,4 +1,4 @@
-package ticTacThink.sistema.dados.repositorios;
+package ticTacThink.dados.repositorios;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,50 +7,57 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import ticTacThink.sistema.dados.IRepositorioUsuarios;
-import ticTacThink.sistema.negocios.beans.Usuario;
+import ticTacThink.aplicacao.beans.Usuario;
+import ticTacThink.dados.IGerenciador;
 
-public class RepositorioUsuarios implements IRepositorioUsuarios{
+public class GerenciadorUsuario implements IGerenciador{
 	
 	private static final String CAMINHO_ARQUIVO = "arquivo\\usuarios.csv";
 	
-	private static RepositorioUsuarios uniqueInstance;
+	private static GerenciadorUsuario uniqueInstance;
 	
 	private ArrayList<Usuario> usuarios;
 	
 	
-	private RepositorioUsuarios() {
+	private GerenciadorUsuario() {
 		lerArquivo(CAMINHO_ARQUIVO);
 	}
 	
-	public static RepositorioUsuarios getInstance() {
+	public static GerenciadorUsuario getInstance() {
 		if(uniqueInstance == null) {
-			uniqueInstance = new RepositorioUsuarios();
+			uniqueInstance = new GerenciadorUsuario();
 		}
 		
 		return uniqueInstance;
 	}
 	
-	public void cadastrarUsuario(Usuario usuario) {
+	@Override
+	public void cadastrar(Object bean) {
+		Usuario usuario = (Usuario) bean;
 		this.usuarios.add(usuario);
 		atualizarArquivo();
 	}
 	
-	public void removerUsuario(Usuario usuario) {
+	@Override
+	public void remover(Object bean) {
+		Usuario usuario = (Usuario) bean;
 		this.usuarios.remove(usuario);
 		atualizarArquivo();
 	}
 	
-	public void atualizarUsuario(Usuario usuario) {
+	@Override
+	public void atualizar(Object bean) {
+		Usuario usuario = (Usuario) bean;
 		int posUsuario = this.usuarios.indexOf(usuario);
 		this.usuarios.set(posUsuario, usuario);
 		atualizarArquivo();
 	}
 	
-	public Usuario verificarUsuario(String email) {
+	@Override
+	public Usuario verificarObjeto(String parametro) {
 		
 		for(Usuario u : this.usuarios) {
-			if(u.getEmail().contains(email)) {
+			if(u.getEmail().contains(parametro)) {
 				return u;
 			}
 		}
@@ -58,10 +65,11 @@ public class RepositorioUsuarios implements IRepositorioUsuarios{
 		return null;
 	}
 	
-	public boolean verificarExistenciaUsuario(String email) {
+	@Override
+	public boolean verificarExistenciaObjeto(String parametro) {
 		
 		for(Usuario u: this.usuarios) {
-			if(u.getEmail().contains(email)) {
+			if(u.getEmail().contains(parametro)) {
 				return true;
 			}
 		}
@@ -94,6 +102,7 @@ public class RepositorioUsuarios implements IRepositorioUsuarios{
 			csvWriter.close();
 		}catch(IOException e) {
 			e.printStackTrace();
+			
 		}
 		
 	}
@@ -126,37 +135,6 @@ public class RepositorioUsuarios implements IRepositorioUsuarios{
 		}
 		
 	}
-	
-	/*
-	 * criado pra testar no main de test
-	public ArrayList<Usuario> getUser() {
-		return this.usuarios;
-	}
-	 */
-	
-	/*
-	 * main de test
-	 
-	public static void main(String[] args){
-		
-		//BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Users\\gabri\\Desktop\\projeto_ip2\\usuario.csv")));
-		RepositorioUsuarios repo = new RepositorioUsuarios();
-		repo.lerArquivo();
-		
-		for(Usuario u : repo.getUser()) {
-			
-			System.out.println( u.getNome());
-			System.out.println( u.getEmail());
-			System.out.println( u.getSenha());
-			System.out.println( u.getPais() );
-			System.out.println( u.getGenero());
-			System.out.println( u.getIdade());
-			System.out.println("------------");
-		}
-		
-		
-	}
-	*/
-	
+
 
 }

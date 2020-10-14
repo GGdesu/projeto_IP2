@@ -1,4 +1,4 @@
-package ticTacThink.sistema.negocios.beans;
+package ticTacThink.aplicacao.beans;
 
 public class Usuario {
 	//ATRIBUTOS
@@ -11,6 +11,8 @@ public class Usuario {
 	private int idade;
 
 	//CONSTRUCTOR
+	public Usuario() {}
+	
 	public Usuario(String nome, String senha, String email, String pais, String genero, String idade) {
 		this.nome = nome;
 		this.senha = senha;

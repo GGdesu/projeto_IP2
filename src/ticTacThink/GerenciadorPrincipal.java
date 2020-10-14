@@ -1,8 +1,9 @@
-package ticTacThink.sistema;
+package ticTacThink;
 
-import ticTacThink.sistema.dados.repositorios.RepositorioUsuarios;
-import ticTacThink.sistema.negocios.ControladorUsuario;
-import ticTacThink.sistema.negocios.beans.Usuario;
+import ticTacThink.aplicacao.ControladorUsuario;
+import ticTacThink.aplicacao.beans.Usuario;
+import ticTacThink.dados.repositorios.GerenciadorUsuario;
+import ticTacThink.exceptions.UsuarioJaExiste;
 
 public class GerenciadorPrincipal {
 	
@@ -12,7 +13,7 @@ public class GerenciadorPrincipal {
 	private ControladorUsuario controladorUsuario;
 	
 	private GerenciadorPrincipal() {
-		controladorUsuario = new ControladorUsuario(RepositorioUsuarios.getInstance());
+		controladorUsuario = new ControladorUsuario(GerenciadorUsuario.getInstance());
 	}
 	
 	//FUNÇAO NO PADRÃO SINGLETON
@@ -43,7 +44,7 @@ public class GerenciadorPrincipal {
 	}
 	
 	//USUARIO
-	public void cadastrarUsuario(Usuario usuario) {
+	public void cadastrarUsuario(Usuario usuario) throws UsuarioJaExiste {
 		this.controladorUsuario.cadastrar(usuario);
 	}
 	
