@@ -1,2 +1,3 @@
-module projeto_IP2 {
+module ticTacThink {
+	requires com.google.gson;
 }
