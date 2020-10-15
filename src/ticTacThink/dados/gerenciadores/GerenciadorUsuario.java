@@ -1,4 +1,4 @@
-package ticTacThink.dados.repositorios;
+package ticTacThink.dados.gerenciadores;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

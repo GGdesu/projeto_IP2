@@ -2,7 +2,7 @@ package ticTacThink;
 
 import ticTacThink.aplicacao.ControladorUsuario;
 import ticTacThink.aplicacao.beans.Usuario;
-import ticTacThink.dados.repositorios.GerenciadorUsuario;
+import ticTacThink.dados.gerenciadores.GerenciadorUsuario;
 import ticTacThink.exceptions.UsuarioJaExiste;
 
 public class GerenciadorPrincipal {
