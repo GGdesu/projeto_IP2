@@ -1,7 +1,8 @@
-package ticTacThink.dados;
+package ticTacThink.dados.gerenciadores;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,19 +21,19 @@ import com.google.gson.JsonPrimitive;
 
 import ticTacThink.aplicacao.beans.Pergunta;
 
-public class TriviaApi {
+public class GerenciadorPergunta {
 	
-	// ATRIBUTOS 
-	private HashMap<String,Integer> categoriasID = new HashMap<String, Integer>();
+	private static Gson gson = new Gson();
+	private String diretorio = "arquivos/perguntas/";
+	private HashMap<String,Integer> categoriasID = new HashMap<>();
 	private String tokenDeSessao = null;
-	// TODO: resetar token ao fim de suas questões
 	
 	// CONSTRUTORES
-	public TriviaApi() {
+	public GerenciadorPergunta() {
 		this(false);
 	}
 	
-	public TriviaApi(boolean useToken) {
+	public GerenciadorPergunta(boolean useToken) {
 		// Pega todas as categorias disponiveis
 		JsonObject json = baixarJson("https://opentdb.com/api_category.php");
 		JsonArray categorias = json.get("trivia_categories").getAsJsonArray();
@@ -43,18 +44,23 @@ public class TriviaApi {
 			categoriasID.put(nome,id);
 		}
 		if (useToken)
-			tokenDeSessao = pegarNovoToken();
+			tokenDeSessao = token("request");
+		
+		// criando diretório
+		File file = new File(diretorio);
+		if (!file.isDirectory())
+			file.mkdirs();
 		
 	}
 	
-	public String[] getCategorias() {
-		String[] strings = new String[this.categoriasID.size()];
-		return this.categoriasID.keySet().toArray(strings);
-	}
+	// MÉTODOS PARA API ONLINE
 	
-	// MÉTODOS PRIVADOS
-	private String pegarNovoToken() {
-		String link = "https://opentdb.com/api_token.php?command=request";
+	// Sessão online (Perguntas não serão repetidas até o fim da lista)
+	// @param: comando = [´request´ ou ´reset´]
+	private String token(String comando) {
+		String link = "https://opentdb.com/api_token.php?command="+ comando;
+		if (this.tokenDeSessao != null)
+			link += "&" + this.tokenDeSessao;
 		JsonObject json = baixarJson(link);
 
 		int response_code = json.get("response_code").getAsInt();
@@ -64,7 +70,6 @@ public class TriviaApi {
 			return json.get("token").getAsString();
 		return null;
 	}
-	
 	private JsonObject baixarJson(String link) {		
 		try {
 			URL url = new URL(link);
@@ -75,21 +80,15 @@ public class TriviaApi {
 				System.out.print("HTTP error code : " + con.getResponseCode());
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			
-			String output,json="";
-			while ((output = br.readLine()) != null)
-				json += output;
+			JsonObject json = gson.fromJson(br, JsonObject.class);
 			con.disconnect();
-			
-			return new Gson().fromJson(json, JsonObject.class);
-		}
-		catch (Exception e) {
+			return json;
+		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Não foi possivel baixar o arquivo JSON.");
+			return null;
 		}
-		System.out.println("Não foi possivel baixar o arquivo JSON.");
-		return null;
 	}
-	
 	private ArrayList<Pergunta> converterParaPerguntas(JsonArray array) {
 		ArrayList<Pergunta> perguntas = new ArrayList<Pergunta>();
 		for (JsonElement jsonElement : array) {
@@ -134,7 +133,6 @@ public class TriviaApi {
 		} 
 		return perguntas;
 	}
-	
 	private String criarLink(int quantidade, String categoria, String dificuldade, String tipo) {
 		assert(quantidade > 0);
 		String link = "https://opentdb.com/api.php?";
@@ -150,8 +148,71 @@ public class TriviaApi {
 		return link;
 	}
 	
+	// MÉTODOS DE ARMAZENAMENTO
+	
+	private boolean verificarExistencia(Pergunta pergunta) {
+		String caminhoArquivo = this.diretorio + categoriasID.get(pergunta.getCategoria()) + ".json";
+		try {
+			FileReader leitor = new FileReader(caminhoArquivo);
+			JsonObject arquivo = gson.fromJson(leitor, JsonObject.class);
+			return arquivo.has(pergunta.getPergunta());
+		} catch (FileNotFoundException e) {
+			return false;
+		}
+	}
+	private void atualizar(Pergunta pergunta, boolean acertada) {
+		String caminhoArquivo = this.diretorio + categoriasID.get(pergunta.getCategoria()) + ".json";
+		try {
+			FileReader leitor = new FileReader(caminhoArquivo);
+			JsonObject arquivo = gson.fromJson(leitor, JsonObject.class);
+			JsonArray info = arquivo.get(pergunta.getPergunta()).getAsJsonArray();
+			
+			int aparicoes = info.get(0).getAsInt();
+			int acertos = info.get(1).getAsInt();
+			int erros = info.get(2).getAsInt();
+			
+			aparicoes++; 
+			if (acertada)
+				acertos++;
+			else
+				erros++;
+			info.set(0, new JsonPrimitive(aparicoes));				
+			info.set(1, new JsonPrimitive(acertos));
+			info.set(2, new JsonPrimitive(erros));
+			
+			arquivo.add(pergunta.getPergunta(), info);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	private void cadastrar(Pergunta pergunta) {
+		String caminhoArquivo = this.diretorio + categoriasID.get(pergunta.getCategoria()) + ".json";
+		try {
+			FileReader leitor = new FileReader(caminhoArquivo);
+			JsonObject arquivo = gson.fromJson(leitor, JsonObject.class);
+			
+			JsonArray info = new JsonArray();
+			info.add(0); // aparicoes
+			info.add(0); // acertos
+			info.add(0); // erros
+			arquivo.add(pergunta.getPergunta(), info);
+			
+			FileWriter writer = new FileWriter(caminhoArquivo);
+			gson.toJson(arquivo, writer);
+			writer.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// MÉTODOS PÚBLICOS
 	
+	public String[] getCategorias() {
+		String[] strings = new String[this.categoriasID.size()];
+		return this.categoriasID.keySet().toArray(strings);
+	}
+
 	// quantidade [min = 1, max = 50]
 	// Any = null (ex: "qualquer categoria" -> null)
 	public ArrayList<Pergunta> baixarPerguntas(int quantidade, String categoria, String dificuldade, String tipo) {
@@ -160,78 +221,36 @@ public class TriviaApi {
 		
 		int response_code = json.get("response_code").getAsInt(); 
 		
-		if (response_code > 1) {
-			System.out.println("Erro: response_code = "+response_code); 
-			return null;
+		switch (response_code) {
+		case 0:
+			JsonArray resultados = json.get("results").getAsJsonArray();
+			return converterParaPerguntas(resultados);
+		case 1: System.out.println("baixarPerguntas: Sem Resultados!"); break;
+		case 2: System.out.println("baixarPerguntas: Parametro Inválido!");	break;
+		case 3: System.out.println("baixarPerguntas: Token não encontrado!"); break;
+		case 4:
+			System.out.println("baixarPerguntas: Token Já obteve todas as perguntas, Resetando...");
+			token("reset");
+			break;
 		}
-		JsonArray resultados = json.get("results").getAsJsonArray();
-		return converterParaPerguntas(resultados);
+		return null;
 	}
+
+	// MÉTODOS PÚBLICOS
 	
 	public ArrayList<Pergunta> baixarPerguntas(int quantidade) {
 		return baixarPerguntas(quantidade,null,null,null);
 	}
-	
+
 	public void salvarPerguntas(ArrayList<Pergunta> perguntas, boolean[] acertadas) {
 		int perguntaAtual = 0;
-		Gson gson = new Gson();
-		try {
-			for (Pergunta pergunta : perguntas) {
-				// Ajustando diretório
-				String path = "data/perguntas/";
-				File file = new File(path);
-				
-				// criando diretório
-				if (!file.isDirectory())
-					file.mkdirs();
-				
-				path += categoriasID.get(pergunta.getCategoria()) + ".json";
-				file = new File(path);
-
-				JsonObject json;
-				JsonArray array; // [aparições, acertos, erros]
-				
-				boolean arquivoExiste = file.exists();
-				if (arquivoExiste)
-					json = gson.fromJson(new FileReader(file), JsonObject.class); // lê
-				else
-					json = new JsonObject(); // cria
-												
-				boolean perguntaJaFeita = json.has(pergunta.getPergunta());
-				if (perguntaJaFeita) {
-					array = json.get(pergunta.getPergunta()).getAsJsonArray(); // pega					
-				} else { 
-					array = new JsonArray(); // cria
-					array.add(0);
-					array.add(0);
-					array.add(0);
-				}
-				
-				int aparicoes = array.get(0).getAsInt();
-				int acertos = array.get(1).getAsInt();
-				int erros = array.get(2).getAsInt(); 
-				
-				// atualizando valores
-				aparicoes++; 
-				if (acertadas[perguntaAtual])
-					acertos++;
-				else
-					erros++;
-				
-				// enviando para o array
-				array.set(0, new JsonPrimitive(aparicoes));				
-				array.set(1, new JsonPrimitive(acertos));
-				array.set(2, new JsonPrimitive(erros));
-				
-				// Adicionando pergunta e valores
-				json.add(pergunta.getPergunta(), array);
-				try (FileWriter writer = new FileWriter(file)){
-					gson.toJson(json, writer);
-				}
-				perguntaAtual++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (Pergunta pergunta : perguntas) {
+			boolean existe = verificarExistencia(pergunta);
+			if (existe)
+				atualizar(pergunta, acertadas[perguntaAtual]);
+			else
+				cadastrar(pergunta);
+			perguntaAtual++;
 		}
 	}
 }
