@@ -1,4 +1,4 @@
-package ticTacThink.pergunta;
+package ticTacThink.aplicacao.beans;
 
 public class Pergunta {
 	private final String categoria;
