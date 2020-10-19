@@ -34,8 +34,9 @@ public class Pergunta {
 							"Tipo: " + this.tipo + "\n" +
 							"Dificuldade: " + this.dificuldade + "\n" + 
 							"Alternativas:\n";
-		for (String string : respostas)
-			resultado += "\t" + string + "\n";
+		if (respostas != null)
+			for (String string : respostas)
+				resultado += "\t" + string + "\n";
 		return resultado;
 	}
 	

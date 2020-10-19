@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import ticTacThink.aplicacao.beans.Pergunta;
+import ticTacThink.aplicacao.beans.PerguntaInfo;
 
 public class GerenciadorPergunta {
 	
@@ -32,7 +34,6 @@ public class GerenciadorPergunta {
 	public GerenciadorPergunta() {
 		this(false);
 	}
-	
 	public GerenciadorPergunta(boolean useToken) {
 		// Pega todas as categorias disponiveis
 		JsonObject json = baixarJson("https://opentdb.com/api_category.php");
@@ -54,7 +55,6 @@ public class GerenciadorPergunta {
 	}
 	
 	// MÉTODOS PARA API ONLINE
-	
 	// Sessão online (Perguntas não serão repetidas até o fim da lista)
 	// @param: comando = [´request´ ou ´reset´]
 	private String token(String comando) {
@@ -149,23 +149,29 @@ public class GerenciadorPergunta {
 	}
 	
 	// MÉTODOS DE ARMAZENAMENTO
-	
+	private File arquivoDa(Pergunta pergunta) {
+		return new File(this.diretorio + categoriasID.get(pergunta.getCategoria()) + "/" + 
+				pergunta.getTipo() + "/" + pergunta.getDificuldade() + ".json");
+	}
 	private boolean verificarExistencia(Pergunta pergunta) {
-		String caminhoArquivo = this.diretorio + categoriasID.get(pergunta.getCategoria()) + ".json";
+		File arquivo = arquivoDa(pergunta);
+		if (!arquivo.exists()) return false;
 		try {
-			FileReader leitor = new FileReader(caminhoArquivo);
-			JsonObject arquivo = gson.fromJson(leitor, JsonObject.class);
-			return arquivo.has(pergunta.getPergunta());
+			FileReader leitor = new FileReader(arquivo);
+			JsonObject json = gson.fromJson(leitor, JsonObject.class);
+			return json.has(pergunta.getPergunta());
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 			return false;
 		}
+		
 	}
 	private void atualizar(Pergunta pergunta, boolean acertada) {
-		String caminhoArquivo = this.diretorio + categoriasID.get(pergunta.getCategoria()) + ".json";
 		try {
-			FileReader leitor = new FileReader(caminhoArquivo);
-			JsonObject arquivo = gson.fromJson(leitor, JsonObject.class);
-			JsonArray info = arquivo.get(pergunta.getPergunta()).getAsJsonArray();
+			File arquivo = arquivoDa(pergunta);
+			FileReader leitor = new FileReader(arquivo);
+			JsonObject json = gson.fromJson(leitor, JsonObject.class);
+			JsonArray info = json.get(pergunta.getPergunta()).getAsJsonArray();
 			
 			int aparicoes = info.get(0).getAsInt();
 			int acertos = info.get(1).getAsInt();
@@ -180,34 +186,40 @@ public class GerenciadorPergunta {
 			info.set(1, new JsonPrimitive(acertos));
 			info.set(2, new JsonPrimitive(erros));
 			
-			arquivo.add(pergunta.getPergunta(), info);
+			json.add(pergunta.getPergunta(), info);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	private void cadastrar(Pergunta pergunta) {
-		String caminhoArquivo = this.diretorio + categoriasID.get(pergunta.getCategoria()) + ".json";
+		String caminho = this.diretorio +
+				categoriasID.get(pergunta.getCategoria()) +"/"+
+				pergunta.getTipo() +"/"+ pergunta.getDificuldade() + ".json";
 		try {
-			FileReader leitor = new FileReader(caminhoArquivo);
-			JsonObject arquivo = gson.fromJson(leitor, JsonObject.class);
+			File arquivo = new File(caminho);
+			JsonObject json;
 			
+			if (!arquivo.exists()) {
+				arquivo.getParentFile().mkdirs(); 
+				json = new JsonObject();
+			} else {
+				json = gson.fromJson(new FileReader(arquivo), JsonObject.class);
+			}
 			JsonArray info = new JsonArray();
 			info.add(0); // aparicoes
 			info.add(0); // acertos
 			info.add(0); // erros
-			arquivo.add(pergunta.getPergunta(), info);
+			json.add(pergunta.getPergunta(), info);
 			
-			FileWriter writer = new FileWriter(caminhoArquivo);
-			gson.toJson(arquivo, writer);
+			FileWriter writer = new FileWriter(arquivo);
+			gson.toJson(json, writer);
 			writer.close();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	// MÉTODOS PÚBLICOS
-	
 	public String[] getCategorias() {
 		String[] strings = new String[this.categoriasID.size()];
 		return this.categoriasID.keySet().toArray(strings);
@@ -235,9 +247,6 @@ public class GerenciadorPergunta {
 		}
 		return null;
 	}
-
-	// MÉTODOS PÚBLICOS
-	
 	public ArrayList<Pergunta> baixarPerguntas(int quantidade) {
 		return baixarPerguntas(quantidade,null,null,null);
 	}
@@ -252,5 +261,58 @@ public class GerenciadorPergunta {
 				cadastrar(pergunta);
 			perguntaAtual++;
 		}
+	}
+
+	public ArrayList<PerguntaInfo> lerPerguntas() {
+		var dir = new File(this.diretorio);
+		var categorias = dir.listFiles();
+		var categoriasDisponiveis = this.getCategorias();
+
+		ArrayDeque<PerguntaInfo> deque = new ArrayDeque<>();
+		
+		// Entrando nos diretorios de categorias 
+		for (File dirCategoriaID : categorias) {
+			var tipos = dirCategoriaID.listFiles();
+			
+			// obtendo nome da categoria pelo id
+			String categoria = "";
+			for (String c : categoriasDisponiveis) {
+				
+				// compara duas strings numericas e.g "11".equals("11")
+				if (this.categoriasID.get(c).toString().equals(dirCategoriaID.getName())) {
+					categoria = c;
+					break;
+				}
+
+			}
+			// Para cada pasta de tipo [boolean, multiple]
+			for (File tipo : tipos) {
+				var dificuldades = tipo.listFiles();
+
+				// Para cada pasta de dificuldade [easy, medium, hard]
+				for (File dificuldade : dificuldades) {
+					try {
+						// Ler arquivo e pegar perguntas
+						var arquivo = new BufferedReader(new FileReader(dificuldade));
+						JsonObject json = gson.fromJson(arquivo, JsonObject.class);
+						var entrySet = json.entrySet();
+						for (var entry : entrySet) {
+							String pergunta = entry.getKey();
+							JsonArray stats = entry.getValue().getAsJsonArray();
+
+							// temporario
+							deque.push(new PerguntaInfo(
+									new Pergunta(categoria, tipo.getName(), dificuldade.getName(), pergunta, null, 0),
+									stats.get(0).getAsInt(), stats.get(1).getAsInt(), stats.get(2).getAsInt()));
+						}
+						
+
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return new ArrayList<PerguntaInfo>(deque);
 	}
 }
