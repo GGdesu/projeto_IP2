@@ -1,7 +1,10 @@
 package ticTacThink;
 
+import ticTacThink.aplicacao.ControladorRank;
 import ticTacThink.aplicacao.ControladorUsuario;
+import ticTacThink.aplicacao.beans.Rank;
 import ticTacThink.aplicacao.beans.Usuario;
+import ticTacThink.dados.gerenciadores.GerenciadorRank;
 import ticTacThink.dados.gerenciadores.GerenciadorUsuario;
 import ticTacThink.exceptions.UsuarioJaExiste;
 
@@ -11,9 +14,12 @@ public class GerenciadorPrincipal {
 	private static Usuario usuarioON;
 
 	private ControladorUsuario controladorUsuario;
+	private ControladorRank controladorRank;
 	
+	//CONSTRUCTOR
 	private GerenciadorPrincipal() {
 		controladorUsuario = new ControladorUsuario(GerenciadorUsuario.getInstance());
+		controladorRank = new ControladorRank(GerenciadorRank.getInstance());
 	}
 	
 	//FUNÇAO NO PADRÃO SINGLETON
@@ -50,6 +56,11 @@ public class GerenciadorPrincipal {
 	
 	public void atualizarUsuario(Usuario usuario) {
 		this.controladorUsuario.atualizar(usuario);
+	}
+	
+	//RANK
+	public void verificarRanker(Rank ranker) {
+		this.controladorRank.verificaPontuacao(ranker);
 	}
 	
 	
