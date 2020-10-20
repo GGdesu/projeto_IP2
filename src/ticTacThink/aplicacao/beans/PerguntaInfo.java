@@ -16,5 +16,8 @@ public class PerguntaInfo {
         return "PerguntaInfo [acertos=" + acertos + ", aparicoes=" + aparicoes + ", erros=" + erros + ",\npergunta="
                 + pergunta + "]";
     }
-    
+
+    public Pergunta getPergunta() {
+        return pergunta;
+    }
 }

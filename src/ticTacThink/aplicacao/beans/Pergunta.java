@@ -5,7 +5,7 @@ public class Pergunta {
 	private final String tipo;
 	private final String dificuldade;
 	
-	private final String pergunta;
+	private final String texto;
 	
 	private final String respostas[];
 	private final int certa;
@@ -15,7 +15,7 @@ public class Pergunta {
 		this.categoria = categoria;
 		this.tipo = tipo;
 		this.dificuldade = dificuldade;
-		this.pergunta = pergunta;
+		this.texto = pergunta;
 		this.respostas = respostas;
 		this.certa = respostaCerta;
 	}
@@ -29,7 +29,7 @@ public class Pergunta {
 	}
 	
 	public String toString() {
-		String resultado = 	"Pergunta: " + this.pergunta + "\n" + 
+		String resultado = 	"Pergunta: " + this.texto + "\n" + 
 							"Catergoria: " + this.categoria + "\n" + 
 							"Tipo: " + this.tipo + "\n" +
 							"Dificuldade: " + this.dificuldade + "\n" + 
@@ -50,10 +50,13 @@ public class Pergunta {
 	public String getDificuldade() {
 		return dificuldade;
 	}
-	public String getPergunta() {
-		return pergunta;
+	public String getTexto() {
+		return texto;
 	}
 	public String[] getRespostas() {
 		return respostas;
+	}
+	public int getCerta() {
+		return certa;
 	}
 }

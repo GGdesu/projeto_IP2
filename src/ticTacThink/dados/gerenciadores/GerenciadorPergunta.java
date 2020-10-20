@@ -51,7 +51,6 @@ public class GerenciadorPergunta {
 		File file = new File(diretorio);
 		if (!file.isDirectory())
 			file.mkdirs();
-		
 	}
 	
 	// MÉTODOS PARA API ONLINE
@@ -159,7 +158,7 @@ public class GerenciadorPergunta {
 		try {
 			FileReader leitor = new FileReader(arquivo);
 			JsonObject json = gson.fromJson(leitor, JsonObject.class);
-			return json.has(pergunta.getPergunta());
+			return json.has(pergunta.getTexto());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return false;
@@ -171,23 +170,27 @@ public class GerenciadorPergunta {
 			File arquivo = arquivoDa(pergunta);
 			FileReader leitor = new FileReader(arquivo);
 			JsonObject json = gson.fromJson(leitor, JsonObject.class);
-			JsonArray info = json.get(pergunta.getPergunta()).getAsJsonArray();
-			
-			int aparicoes = info.get(0).getAsInt();
-			int acertos = info.get(1).getAsInt();
-			int erros = info.get(2).getAsInt();
+			JsonObject perguntaJson = json.get(pergunta.getTexto()).getAsJsonObject();
+
+			var array = perguntaJson.get("info").getAsJsonArray();
+			int aparicoes = array.get(0).getAsInt();
+			int acertos	  = array.get(1).getAsInt();
+			int erros	  = array.get(2).getAsInt();
 			
 			aparicoes++; 
 			if (acertada)
 				acertos++;
 			else
 				erros++;
-			info.set(0, new JsonPrimitive(aparicoes));				
-			info.set(1, new JsonPrimitive(acertos));
-			info.set(2, new JsonPrimitive(erros));
+			array.set(0, new JsonPrimitive(aparicoes));				
+			array.set(1, new JsonPrimitive(acertos));
+			array.set(2, new JsonPrimitive(erros));
+
+			FileWriter writer = new FileWriter(arquivo);
+			gson.toJson(json, writer);
+			writer.close();
 			
-			json.add(pergunta.getPergunta(), info);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -205,11 +208,22 @@ public class GerenciadorPergunta {
 			} else {
 				json = gson.fromJson(new FileReader(arquivo), JsonObject.class);
 			}
-			JsonArray info = new JsonArray();
-			info.add(0); // aparicoes
-			info.add(0); // acertos
-			info.add(0); // erros
-			json.add(pergunta.getPergunta(), info);
+			JsonObject item = new JsonObject();
+			JsonArray arrayRespostas = new JsonArray();
+			arrayRespostas.add(pergunta.getCerta());
+			for (var r : pergunta.getRespostas())
+				arrayRespostas.add(r);
+		
+			JsonArray arrayInfo = new JsonArray();
+			arrayInfo.add(0); // aparicoes
+			arrayInfo.add(0); // acertos
+			arrayInfo.add(0); // erros
+			
+			item.add("resp",arrayRespostas);
+			item.add("info",arrayInfo);
+
+			// Fomato "Pergunta":[['resposta', ...], [info, ...]]
+			json.add(pergunta.getTexto(), item);
 			
 			FileWriter writer = new FileWriter(arquivo);
 			gson.toJson(json, writer);
@@ -234,12 +248,13 @@ public class GerenciadorPergunta {
 		int response_code = json.get("response_code").getAsInt(); 
 		
 		switch (response_code) {
+		case 1: 
+			System.out.println("baixarPerguntas: Resultados Reduzidos..."); // mesmo assim tenta pegar algo
 		case 0:
 			JsonArray resultados = json.get("results").getAsJsonArray();
 			return converterParaPerguntas(resultados);
-		case 1: System.out.println("baixarPerguntas: Sem Resultados!"); break;
-		case 2: System.out.println("baixarPerguntas: Parametro Inválido!");	break;
-		case 3: System.out.println("baixarPerguntas: Token não encontrado!"); break;
+		case 2: System.out.println("baixarPerguntas: Parametro Inválido.");	break;
+		case 3: System.out.println("baixarPerguntas: Token não encontrado."); break;
 		case 4:
 			System.out.println("baixarPerguntas: Token Já obteve todas as perguntas, Resetando...");
 			token("reset");
@@ -264,30 +279,28 @@ public class GerenciadorPergunta {
 	}
 
 	public ArrayList<PerguntaInfo> lerPerguntas() {
-		var dir = new File(this.diretorio);
-		var categorias = dir.listFiles();
-		var categoriasDisponiveis = this.getCategorias();
+		File dir = new File(this.diretorio);
+		File[] categorias = dir.listFiles();
+		String[] categoriasDisponiveis = this.getCategorias();
 
 		ArrayDeque<PerguntaInfo> deque = new ArrayDeque<>();
 		
 		// Entrando nos diretorios de categorias 
 		for (File dirCategoriaID : categorias) {
-			var tipos = dirCategoriaID.listFiles();
+			File[] tipos = dirCategoriaID.listFiles();
 			
 			// obtendo nome da categoria pelo id
 			String categoria = "";
 			for (String c : categoriasDisponiveis) {
-				
 				// compara duas strings numericas e.g "11".equals("11")
 				if (this.categoriasID.get(c).toString().equals(dirCategoriaID.getName())) {
 					categoria = c;
 					break;
 				}
-
 			}
 			// Para cada pasta de tipo [boolean, multiple]
 			for (File tipo : tipos) {
-				var dificuldades = tipo.listFiles();
+				File[] dificuldades = tipo.listFiles();
 
 				// Para cada pasta de dificuldade [easy, medium, hard]
 				for (File dificuldade : dificuldades) {
@@ -298,15 +311,22 @@ public class GerenciadorPergunta {
 						var entrySet = json.entrySet();
 						for (var entry : entrySet) {
 							String pergunta = entry.getKey();
-							JsonArray stats = entry.getValue().getAsJsonArray();
 
-							// temporario
+							// Lendo estatisticas
+							JsonArray estatisticas = entry.getValue().getAsJsonObject().get("info").getAsJsonArray();
+							var resp = entry.getValue().getAsJsonObject().get("resp").getAsJsonArray();
+							
+							// Lendo Respostas
+							int certa = resp.get(0).getAsInt();
+							String respostas[] = new String[resp.size()-1]; // -1: retirando valor da resposta certa
+							for (int i = 1; i < resp.size(); i++)
+								respostas[i-1] = resp.get(i).getAsString();
+							
+							// adicionando ao conjunto
 							deque.push(new PerguntaInfo(
-									new Pergunta(categoria, tipo.getName(), dificuldade.getName(), pergunta, null, 0),
-									stats.get(0).getAsInt(), stats.get(1).getAsInt(), stats.get(2).getAsInt()));
+									new Pergunta(categoria, tipo.getName(), dificuldade.getName(), pergunta, respostas, certa),
+									estatisticas.get(0).getAsInt(), estatisticas.get(1).getAsInt(), estatisticas.get(2).getAsInt()));
 						}
-						
-
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}

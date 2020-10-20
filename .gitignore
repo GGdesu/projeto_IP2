@@ -1,2 +1,4 @@
 /bin/
 /arquivos/
+/target/
+*.class
