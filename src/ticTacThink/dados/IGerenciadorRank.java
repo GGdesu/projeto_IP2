@@ -1,5 +1,7 @@
 package ticTacThink.dados;
 
+import java.util.ArrayList;
+
 import ticTacThink.aplicacao.beans.Rank;
 
 public interface IGerenciadorRank {
@@ -10,5 +12,6 @@ public interface IGerenciadorRank {
 	public Rank verificarObjeto(String email);
 	public boolean verificarExistenciaObjeto(String email);
 	public int verificarPosicao(Rank ranker);
+	public ArrayList<Rank> getRank();
 
 }

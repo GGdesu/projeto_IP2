@@ -1,5 +1,7 @@
 package ticTacThink.aplicacao;
 
+import java.util.ArrayList;
+
 import ticTacThink.aplicacao.beans.Rank;
 import ticTacThink.dados.IGerenciadorRank;
 
@@ -42,6 +44,10 @@ public class ControladorRank {
 			return null;
 		}
 		
+	}
+	
+	public ArrayList<Rank> pegarLista() {
+		return gerenciadorRank.getRank();
 	}
 	
 

@@ -93,6 +93,11 @@ public class GerenciadorRank implements IGerenciadorRank{
 		return pos;
 	}
 	
+	@Override
+	public ArrayList<Rank> getRank(){
+		return this.rank;
+	}
+	
 	public void atualizarArquivo() {
 		
 		try {

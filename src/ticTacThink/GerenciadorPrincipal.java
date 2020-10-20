@@ -63,5 +63,8 @@ public class GerenciadorPrincipal {
 		this.controladorRank.verificaPontuacao(ranker);
 	}
 	
+	public void Rank() {
+		this.controladorRank.pegarLista();
+	}
 	
 }
