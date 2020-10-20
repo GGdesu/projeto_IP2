@@ -1,7 +1,7 @@
 package ticTacThink.dados.gerenciadores;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -110,25 +110,30 @@ public class GerenciadorUsuario implements IGerenciadorUsuario{
 		
 		try {
 			
-			BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo));
+			File file = new File(caminhoArquivo);
 			
-			String linha = null;
-			
-			try {
+			if(file.exists()) {
+				BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo));
 				
-				while((linha = reader.readLine()) != null) {
+				String linha = null;
+				
+				try {
 					
-					String[] dados = linha.split(",");
-					Usuario usuario = new Usuario(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
-					this.usuarios.add(usuario);
-				}
-				
-				reader.close();
-				
-			}catch(IOException e) {}
-			
-		}catch(FileNotFoundException e) {
-			System.out.println("Arquivo Não Encontrado!");
+					while((linha = reader.readLine()) != null) {
+						
+						String[] dados = linha.split(",");
+						Usuario usuario = new Usuario(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
+						this.usuarios.add(usuario);
+					}
+					
+					reader.close();
+					
+				}catch(IOException e) {}
+			}else {
+				file.createNewFile();
+			}
+		}catch(IOException e) {
+			System.out.println("Arquivo inexistente! O app irá criá-lo.");
 		}
 		
 	}

@@ -1,7 +1,7 @@
 package ticTacThink.dados.gerenciadores;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -122,27 +122,34 @@ public class GerenciadorRank implements IGerenciadorRank{
 		
 		try {
 			
-			BufferedReader reader = new BufferedReader(new FileReader(caminho));
+			File file = new File(caminho);
 			
-			String linha = null;
+			if(file.exists()) {
 			
-			try {
-				while((linha = reader.readLine()) != null) {
-					String[] dados = linha.split(",");
-					Rank ranker = new Rank(dados[0], dados[1], dados[2], dados[3]);
-					this.rank.add(ranker);
+				BufferedReader reader = new BufferedReader(new FileReader(file));
+				
+				String linha = null;
+				
+				try {
+					while((linha = reader.readLine()) != null) {
+						String[] dados = linha.split(",");
+						Rank ranker = new Rank(dados[0], dados[1], dados[2], dados[3]);
+						this.rank.add(ranker);
+						
+					}
 					
-				}
+					reader.close();
+					
+				}catch(IOException e) {}
 				
-				reader.close();
-				
-			}catch(IOException e) {}
+			}else {
+				file.createNewFile();
+			}
 			
-		}catch(FileNotFoundException e) {
-			System.out.println("Arquivo não encontrado.");
+		}catch(IOException e) {
+			System.out.println("Arquivo inexistente! O app irá criá-lo.");
 			
 		}
-	}
-		
+	}	
 
 }
