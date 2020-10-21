@@ -16,7 +16,7 @@ public class GerenciadorPrincipal {
 		controladorUsuario = new ControladorUsuario(GerenciadorUsuario.getInstance());
 	}
 	
-	//FUNÇAO NO PADRÃO SINGLETON
+	//FUNï¿½AO NO PADRï¿½O SINGLETON
 	public static GerenciadorPrincipal getInstance() {
 		if(instancePrincipal == null) {
 			instancePrincipal = new GerenciadorPrincipal();
@@ -25,7 +25,7 @@ public class GerenciadorPrincipal {
 		return instancePrincipal;
 	}
 	
-	//FUNÇÃO NO PADRÃO SINGLETON
+	//FUNï¿½ï¿½O NO PADRï¿½O SINGLETON
 	public static Usuario getUsuarioInstancia() {
 		return usuarioON;
 	}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="800.0" maxWidth="1000.0" minHeight="200.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.LoginControlador">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" stroke="TRANSPARENT" strokeType="INSIDE" width="600.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="WHITE" offset="0.007662835249042145" />
+                  <Stop color="#545454" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Button layoutX="308.0" layoutY="259.0" mnemonicParsing="false" text="Cadastrar" />
+      <Button layoutX="226.0" layoutY="259.0" mnemonicParsing="false" onAction="#entrar" text="Entrar" />
+      <TextField fx:id="email" layoutX="226.0" layoutY="188.0" promptText="Email" />
+      <TextField fx:id="senha" layoutX="226.0" layoutY="223.0" promptText="Senha" />
+      <Text fill="#4d4d4d" layoutX="140.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIC TAC THINK!" textAlignment="CENTER" AnchorPane.topAnchor="107.76953125">
+         <font>
+            <Font name="Candara" size="50.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
