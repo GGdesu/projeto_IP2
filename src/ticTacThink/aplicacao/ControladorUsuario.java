@@ -1,21 +1,22 @@
 package ticTacThink.aplicacao;
 
 import ticTacThink.aplicacao.beans.Usuario;
-import ticTacThink.dados.IGerenciador;
+import ticTacThink.dados.IGerenciadorUsuario;
 import ticTacThink.exceptions.UsuarioJaExiste;
 
 public class ControladorUsuario {
-	IGerenciador repositorio;
+	
+	private IGerenciadorUsuario gerenciadorUsuario;
 	
 	//Constructor
-	public ControladorUsuario(IGerenciador instanciaUsuario) {
-		this.repositorio = instanciaUsuario;
+	public ControladorUsuario(IGerenciadorUsuario instanciaUsuario) {
+		this.gerenciadorUsuario = instanciaUsuario;
 	}
 	
 	//METODOS
 	public Usuario login(String email, String senha) {
-		if(this.repositorio.verificarExistenciaObjeto(email)) {
-			Usuario usuario = this.repositorio.verificarObjeto(email);
+		if(this.gerenciadorUsuario.verificarExistenciaObjeto(email)) {
+			Usuario usuario = (Usuario) this.gerenciadorUsuario.verificarObjeto(email);
 			if(usuario.getSenha().contains(senha)) {
 				return usuario;
 			}
@@ -30,8 +31,8 @@ public class ControladorUsuario {
 		if(usuario == null) {
 			throw new IllegalArgumentException("parâmetro incorreto.");
 			
-		}else if(!this.repositorio.verificarExistenciaObjeto(usuario.getEmail())) {
-			this.repositorio.cadastrar(usuario);
+		}else if(!this.gerenciadorUsuario.verificarExistenciaObjeto(usuario.getEmail())) {
+			this.gerenciadorUsuario.cadastrar(usuario);
 			
 		}else {
 			throw new UsuarioJaExiste(usuario.getEmail());
@@ -46,8 +47,8 @@ public class ControladorUsuario {
 	 *esse remover vai servir pra excluir a conta atual de qualquer jeito.
 	*/
 	public void remover(Usuario usuario) {
-		if(this.repositorio.verificarExistenciaObjeto(usuario.getEmail())) {
-			this.repositorio.remover(usuario);
+		if(this.gerenciadorUsuario.verificarExistenciaObjeto(usuario.getEmail())) {
+			this.gerenciadorUsuario.remover(usuario);
 		}else {
 			//Usuario não existe no banco de dados
 			System.out.println("Usuário não encontrado.");
@@ -58,7 +59,7 @@ public class ControladorUsuario {
 	//atualiza as informações do usuario.
 	//não faço verificação aqui pois o usuario logado não pode ser null.
 	public void atualizar(Usuario usuario) {
-		this.repositorio.atualizar(usuario);
+		this.gerenciadorUsuario.atualizar(usuario);
 		
 	}
 	

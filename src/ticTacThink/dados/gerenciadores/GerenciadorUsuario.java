@@ -1,16 +1,16 @@
 package ticTacThink.dados.gerenciadores;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import ticTacThink.aplicacao.beans.Usuario;
-import ticTacThink.dados.IGerenciador;
+import ticTacThink.dados.IGerenciadorUsuario;
 
-public class GerenciadorUsuario implements IGerenciador{
+public class GerenciadorUsuario implements IGerenciadorUsuario{
 	
 	private static final String CAMINHO_ARQUIVO = "arquivo\\usuarios.csv";
 	
@@ -32,32 +32,29 @@ public class GerenciadorUsuario implements IGerenciador{
 	}
 	
 	@Override
-	public void cadastrar(Object bean) {
-		Usuario usuario = (Usuario) bean;
+	public void cadastrar(Usuario usuario) {
 		this.usuarios.add(usuario);
 		atualizarArquivo();
 	}
 	
 	@Override
-	public void remover(Object bean) {
-		Usuario usuario = (Usuario) bean;
+	public void remover(Usuario usuario) {
 		this.usuarios.remove(usuario);
 		atualizarArquivo();
 	}
 	
 	@Override
-	public void atualizar(Object bean) {
-		Usuario usuario = (Usuario) bean;
+	public void atualizar(Usuario usuario) {
 		int posUsuario = this.usuarios.indexOf(usuario);
 		this.usuarios.set(posUsuario, usuario);
 		atualizarArquivo();
 	}
 	
 	@Override
-	public Usuario verificarObjeto(String parametro) {
+	public Usuario verificarObjeto(String email) {
 		
 		for(Usuario u : this.usuarios) {
-			if(u.getEmail().contains(parametro)) {
+			if(u.getEmail().contains(email)) {
 				return u;
 			}
 		}
@@ -66,10 +63,10 @@ public class GerenciadorUsuario implements IGerenciador{
 	}
 	
 	@Override
-	public boolean verificarExistenciaObjeto(String parametro) {
+	public boolean verificarExistenciaObjeto(String email) {
 		
 		for(Usuario u: this.usuarios) {
-			if(u.getEmail().contains(parametro)) {
+			if(u.getEmail().contains(email)) {
 				return true;
 			}
 		}
@@ -113,25 +110,30 @@ public class GerenciadorUsuario implements IGerenciador{
 		
 		try {
 			
-			BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo));
+			File file = new File(caminhoArquivo);
 			
-			String linha = null;
-			
-			try {
+			if(file.exists()) {
+				BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo));
 				
-				while((linha = reader.readLine()) != null) {
+				String linha = null;
+				
+				try {
 					
-					String[] dados = linha.split(",");
-					Usuario usuario = new Usuario(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
-					this.usuarios.add(usuario);
-				}
-				
-				reader.close();
-				
-			}catch(IOException e) {}
-			
-		}catch(FileNotFoundException e) {
-			System.out.println("Arquivo Não Encontrado!");
+					while((linha = reader.readLine()) != null) {
+						
+						String[] dados = linha.split(",");
+						Usuario usuario = new Usuario(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
+						this.usuarios.add(usuario);
+					}
+					
+					reader.close();
+					
+				}catch(IOException e) {}
+			}else {
+				file.createNewFile();
+			}
+		}catch(IOException e) {
+			System.out.println("Arquivo inexistente! O app irá criá-lo.");
 		}
 		
 	}
