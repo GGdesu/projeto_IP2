@@ -246,19 +246,28 @@ public class GerenciadorPergunta {
 		JsonObject json = baixarJson(link);
 		
 		int response_code = json.get("response_code").getAsInt(); 
-		
+		JsonArray resultados = json.get("results").getAsJsonArray();
+
 		switch (response_code) {
-		case 1: 
-			System.out.println("baixarPerguntas: Resultados Reduzidos..."); // mesmo assim tenta pegar algo
 		case 0:
-			JsonArray resultados = json.get("results").getAsJsonArray();
 			return converterParaPerguntas(resultados);
+
+		case 1: 
+			System.out.println("baixarPerguntas: Resultados Reduzidos... Resetando token..."); // mesmo assim tenta pegar algo
+			token("reset");
+			int perguntasRestantes = quantidade - resultados.size();
+			ArrayList<Pergunta> arrayFinal = baixarPerguntas(perguntasRestantes, categoria, dificuldade, tipo);
+			arrayFinal.addAll(converterParaPerguntas(resultados));
+			return arrayFinal;
+
 		case 2: System.out.println("baixarPerguntas: Parametro Inválido.");	break;
+
 		case 3: System.out.println("baixarPerguntas: Token não encontrado."); break;
+
 		case 4:
 			System.out.println("baixarPerguntas: Token Já obteve todas as perguntas, Resetando...");
 			token("reset");
-			break;
+			return baixarPerguntas(quantidade, categoria, dificuldade, tipo);
 		}
 		return null;
 	}
