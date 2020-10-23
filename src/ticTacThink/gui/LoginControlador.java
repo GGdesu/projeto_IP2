@@ -11,7 +11,7 @@ public class LoginControlador {
 
     @FXML
     void entrar() {
-        
+        App.mudarTela("Menu");
     }
     @FXML
     void sair() {

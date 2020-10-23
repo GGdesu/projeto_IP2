@@ -38,7 +38,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>ticTacThink.App</mainClass>
+                    <mainClass>ticTacThink.gui.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>
