@@ -6,25 +6,13 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.ConfigPartidaControlador">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="gradient" width="600.0">
-         <fill>
-            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
-               <stops>
-                  <Stop color="WHITE" />
-                  <Stop color="WHITE" offset="0.007662835249042145" />
-                  <Stop color="#545454" offset="1.0" />
-               </stops>
-            </RadialGradient>
-         </fill>
-      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="400.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="gradient" width="600.0" />
       <ChoiceBox fx:id="categoriaChoiceBox" layoutX="14.0" layoutY="46.0" prefWidth="150.0" />
       <ChoiceBox fx:id="dificuldadeChoiceBox" layoutX="14.0" layoutY="111.0" prefWidth="150.0" />
       <ChoiceBox fx:id="tipoChoiceBox" layoutX="14.0" layoutY="172.0" prefWidth="150.0" />
