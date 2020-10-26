@@ -16,8 +16,8 @@ public class ControladorUsuario {
 	//METODOS
 	public Usuario login(String email, String senha) {
 		if(this.gerenciadorUsuario.verificarExistenciaObjeto(email)) {
-			Usuario usuario = (Usuario) this.gerenciadorUsuario.verificarObjeto(email);
-			if(usuario.getSenha().contains(senha)) {
+			Usuario usuario = this.gerenciadorUsuario.verificarObjeto(email);
+			if(usuario.getSenha().equals(senha)) {
 				return usuario;
 			}
 		}
@@ -29,7 +29,7 @@ public class ControladorUsuario {
 	public void cadastrar(Usuario usuario) throws UsuarioJaExiste {
 		
 		if(usuario == null) {
-			throw new IllegalArgumentException("parâmetro incorreto.");
+			throw new IllegalArgumentException("parï¿½metro incorreto.");
 			
 		}else if(!this.gerenciadorUsuario.verificarExistenciaObjeto(usuario.getEmail())) {
 			this.gerenciadorUsuario.cadastrar(usuario);
@@ -50,24 +50,24 @@ public class ControladorUsuario {
 		if(this.gerenciadorUsuario.verificarExistenciaObjeto(usuario.getEmail())) {
 			this.gerenciadorUsuario.remover(usuario);
 		}else {
-			//Usuario não existe no banco de dados
-			System.out.println("Usuário não encontrado.");
+			//Usuario nï¿½o existe no banco de dados
+			System.out.println("Usuï¿½rio nï¿½o encontrado.");
 		}
 		
 	}
 	
-	//atualiza as informações do usuario.
-	//não faço verificação aqui pois o usuario logado não pode ser null.
+	//atualiza as informaï¿½ï¿½es do usuario.
+	//nï¿½o faï¿½o verificaï¿½ï¿½o aqui pois o usuario logado nï¿½o pode ser null.
 	public void atualizar(Usuario usuario) {
 		this.gerenciadorUsuario.atualizar(usuario);
 		
 	}
 	
 	/*
-	 * CREIO QUE NÃO PRECISO COLOCAR UMA FUNÇÃO VERIFICAR E PROCURAR AQUI.
-	 * ATÉ O MOMENTO USEI ONDE TINHA QUE USAR AQUI NESSE CONTROLADOR POR MEIO
+	 * CREIO QUE Nï¿½O PRECISO COLOCAR UMA FUNï¿½ï¿½O VERIFICAR E PROCURAR AQUI.
+	 * ATï¿½ O MOMENTO USEI ONDE TINHA QUE USAR AQUI NESSE CONTROLADOR POR MEIO
 	 * DA INTERFACE. NO MOMENTO NO GERENCIADOR PRINCIPAL NAO TENHO PQ USAR ELA
-	 * E COMO O APP NÃO VAI PERMITIR QUE DÊ PRA PROCURAR OUTROS USUARIO NÃO VEJO
+	 * E COMO O APP Nï¿½O VAI PERMITIR QUE Dï¿½ PRA PROCURAR OUTROS USUARIO Nï¿½O VEJO
 	 * NECCESSIDADE DE USA-LAS PARA MAIS COISA
 	 */
 	

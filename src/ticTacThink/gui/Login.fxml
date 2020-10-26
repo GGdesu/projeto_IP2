@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="800.0" maxWidth="1000.0" minHeight="200.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.LoginControlador">
+<AnchorPane maxHeight="800.0" maxWidth="1000.0" minHeight="200.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.LoginControlador">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" stroke="TRANSPARENT" strokeType="INSIDE" width="600.0">
          <fill>
@@ -22,7 +22,7 @@
             </RadialGradient>
          </fill>
       </Rectangle>
-      <Button layoutX="308.0" layoutY="259.0" mnemonicParsing="false" text="Cadastrar" />
+      <Button layoutX="308.0" layoutY="259.0" mnemonicParsing="false" onAction="#cadastrar" text="Cadastrar" />
       <Button layoutX="226.0" layoutY="259.0" mnemonicParsing="false" onAction="#entrar" text="Entrar" />
       <TextField fx:id="email" layoutX="226.0" layoutY="188.0" promptText="Email" />
       <TextField fx:id="senha" layoutX="226.0" layoutY="223.0" promptText="Senha" />

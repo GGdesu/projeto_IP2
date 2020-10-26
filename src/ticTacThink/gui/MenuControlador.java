@@ -1,6 +1,7 @@
 package ticTacThink.gui;
 
 import javafx.fxml.FXML;
+import ticTacThink.GerenciadorPrincipal;
 
 public class MenuControlador {
     
@@ -11,11 +12,13 @@ public class MenuControlador {
 
     @FXML 
     void perfil() {
+    	App.mudarTela("PerfilUsuario");
 
     }
 
     @FXML 
     void ranking() {
+        App.mudarTela("Rank");        
 
     }
     
@@ -26,6 +29,7 @@ public class MenuControlador {
 
     @FXML 
     void logout() {
+    	GerenciadorPrincipal.getInstance().logout();
         App.mudarTela("Login");
     }
 }
