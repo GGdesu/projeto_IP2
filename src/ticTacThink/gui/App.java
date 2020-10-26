@@ -15,8 +15,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         stage.setTitle("Tic Tac Think!");
-
-        stage.setScene(new Scene(carregarFXML("Login")));
+        mudarTela("Login");
         stage.show();
     }
 

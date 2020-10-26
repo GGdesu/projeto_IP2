@@ -97,6 +97,12 @@ public class Usuario {
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [email=" + email + ", genero=" + genero + ", idade=" + idade + ", nome=" + nome + ", pais="
+				+ pais + ", pontuacao=" + pontuacao + ", senha=" + senha + "]";
+	}
 	
 	
 

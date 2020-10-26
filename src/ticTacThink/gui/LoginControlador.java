@@ -2,6 +2,7 @@ package ticTacThink.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+// import ticTacThink.GerenciadorPrincipal;
 
 public class LoginControlador {
     @FXML
@@ -11,8 +12,16 @@ public class LoginControlador {
 
     @FXML
     void entrar() {
-        App.mudarTela("Menu");
+        // GerenciadorPrincipal.getInstance().login(email.getText(), senha.getText());
+        // if (GerenciadorPrincipal.getUsuarioInstancia() != null)
+            App.mudarTela("Menu");
     }
+
+    @FXML
+    void cadastrar() {
+        
+    }
+
     @FXML
     void sair() {
         

@@ -6,7 +6,7 @@ public class MenuControlador {
     
     @FXML 
     void iniciar() {
-        
+        App.mudarTela("ConfigPartida");
     }
 
     @FXML 
@@ -19,11 +19,6 @@ public class MenuControlador {
 
     }
     
-    @FXML 
-    void sair() {
-        System.exit(0);
-    }
-
     @FXML 
     void logout() {
         App.mudarTela("Login");

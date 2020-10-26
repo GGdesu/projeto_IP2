@@ -133,10 +133,7 @@ public class GerenciadorUsuario implements IGerenciadorUsuario{
 				file.createNewFile();
 			}
 		}catch(IOException e) {
-			System.out.println("Arquivo inexistente! O app ir· cri·-lo.");
+			System.out.println("Arquivo inexistente! O app ir√° cria-lo.");
 		}
-		
 	}
-
-
 }
