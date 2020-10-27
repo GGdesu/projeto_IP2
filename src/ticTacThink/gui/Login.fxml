@@ -11,9 +11,9 @@
 <AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="200.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.LoginControlador">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" stroke="#ffffff00" strokeType="INSIDE" styleClass="gradient" width="600.0" />
-      <Button layoutX="308.0" layoutY="271.0" mnemonicParsing="false" styleClass="botao-minusculo" text="Cadastrar" />
+      <Button layoutX="308.0" layoutY="271.0" mnemonicParsing="false" onAction="#cadastrar" styleClass="botao-minusculo" text="Cadastrar" />
       <Button layoutX="226.0" layoutY="271.0" mnemonicParsing="false" onAction="#entrar" styleClass="botao-minusculo" text="Entrar" />
-      <TextField fx:id="email1" layoutX="226.0" layoutY="200.0" promptText="Email" />
+      <TextField fx:id="email" layoutX="226.0" layoutY="188.0" promptText="Email" />
       <Text fill="#4d4d4d" layoutX="140.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIC TAC THINK!" textAlignment="CENTER" AnchorPane.topAnchor="107.76953125">
          <font>
             <Font name="Candara" size="50.0" />
