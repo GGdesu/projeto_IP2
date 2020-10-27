@@ -131,10 +131,6 @@ public class GerenciadorUsuario implements IGerenciadorUsuario{
 
 		} catch (FileNotFoundException e1) {
 			System.out.println("Arquivo inexistente!");
-
-		}	
-		
+		}
 	}
-
-
 }

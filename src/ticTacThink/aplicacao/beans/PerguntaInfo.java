@@ -1,6 +1,6 @@
 package ticTacThink.aplicacao.beans;
 
-public class PerguntaInfo {
+public class PerguntaInfo implements Comparable {
     Pergunta pergunta;
     int aparicoes, acertos, erros;
 
@@ -19,5 +19,14 @@ public class PerguntaInfo {
 
     public Pergunta getPergunta() {
         return pergunta;
+    }
+
+    public int getAparicoes() {
+        return aparicoes;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.aparicoes - ((PerguntaInfo)o).getAparicoes();
     }
 }

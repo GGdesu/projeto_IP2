@@ -28,6 +28,11 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
+.botao-minusculo {
+    -fx-font-family: "system";
+    -fx-font-size: 12px;
+}
+
 .botao-pequeno {
     -fx-font-family: "system";
     -fx-font-size: 14px;
@@ -39,14 +44,18 @@
 }
 
 .gradient {
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f1f1f1, #555555);
+    -fx-stroke: #ffffff00;
+    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #555555);
 }
 .gradient-resposta-certa {
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f1f1f1, #0e7500);
+    -fx-stroke: #ffffff00;
+    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #0e7500);
 }
 .gradient-resposta-errada {
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f1f1f1, #da0000);
+    -fx-stroke: #ffffff00;
+    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #da0000);
 }
 .gradient-partida {
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f1f1f1, #011b90);
+    -fx-stroke: #ffffff00;
+    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #011b90);
 }
