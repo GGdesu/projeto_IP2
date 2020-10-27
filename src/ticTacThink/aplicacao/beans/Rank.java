@@ -2,10 +2,10 @@ package ticTacThink.aplicacao.beans;
 
 public class Rank {
 	
-	String email;
-	String nome;
-	int pontuacao;
-	int posicao;
+	private String email;
+	private String nome;
+	private int pontuacao;
+	private int posicao;
 	
 	//construtor
 	public Rank() {}

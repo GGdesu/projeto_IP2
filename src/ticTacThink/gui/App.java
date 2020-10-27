@@ -1,33 +1,40 @@
 package ticTacThink.gui;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
 public class App extends Application {
 
-    private static Scene scene;
+    private static Stage stage;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Tic Tac Think!");
+        stage = primaryStage;
+        stage.setTitle("Tic Tac Think!");
 
-        scene = new Scene(carregarTela("Login"));
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setScene(new Scene(carregarFXML("Login")));
+        stage.show();
     }
 
-    public static void mudarTela(String fxml) throws IOException {
-        scene.setRoot(carregarTela(fxml));
+    // Telas: Login , Cadastro , Perfil , Editar Perfil , Menu , Partida
+    private static Parent carregarFXML(String nome) {
+        try {
+            return FXMLLoader.load(App.class.getResource(nome + ".fxml"));
+        } catch (Exception e) {
+            return new AnchorPane();
+        }
+    }
+
+    public static void mudarTela(String fxml) {
+        stage.setScene(new Scene(carregarFXML(fxml)));
     }
     
-    // Telas: Login , Cadastro , Perfil , Editar Perfil , Menu , Partida
-    public static Parent carregarTela(String nome) throws IOException {
-        return (new FXMLLoader(App.class.getResource(nome + ".fxml"))).load();
+    public static Scene getScene() {
+        return stage.getScene();
     }
 
     public static void main(String[] args) {

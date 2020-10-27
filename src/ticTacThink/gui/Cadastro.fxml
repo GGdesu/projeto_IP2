@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.CadastroController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="474.0" stroke="TRANSPARENT" strokeType="INSIDE" width="343.0">
+        <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="WHITE" offset="0.007662835249042145" />
+                  <Stop color="#545454" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <VBox fillWidth="false" layoutX="14.0" layoutY="14.0" prefHeight="284.0" prefWidth="258.0" spacing="5.0">
+         <children>
+            <Label text="Nome *" />
+            <TextField fx:id="txtfieldNome" prefHeight="25.0" prefWidth="180.0" promptText="nome" />
+            <Label layoutX="10.0" layoutY="10.0" text="Senha *" />
+            <TextField fx:id="txtfieldSenha" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="180.0" promptText="senha" />
+            <Label layoutX="10.0" layoutY="52.0" text="Confirmar senha *" />
+            <TextField fx:id="txtfieldConfSenha" layoutX="10.0" layoutY="69.0" prefHeight="25.0" prefWidth="180.0" promptText="confirmar senha" />
+            <Label layoutX="10.0" layoutY="10.0" text="Email *" />
+            <TextField fx:id="txtfieldEmail" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="180.0" promptText="email" />
+            <Label layoutX="10.0" layoutY="136.0" text="Data de Nascimento *" />
+            <TextField fx:id="txtfieldData" layoutX="10.0" layoutY="153.0" prefHeight="25.0" prefWidth="180.0" promptText="dd/MM/aa" />
+            <Label layoutX="10.0" layoutY="178.0" text="País" />
+            <TextField fx:id="txtfieldPais" layoutX="10.0" layoutY="240.0" prefHeight="25.0" prefWidth="180.0" promptText="país" />
+            <Label layoutX="10.0" layoutY="270.0" text="Gênero" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+      <HBox layoutX="14.0" layoutY="352.0" prefHeight="47.0" prefWidth="238.0" spacing="10.0">
+         <children>
+            <RadioButton mnemonicParsing="false" text="Masculino">
+               <toggleGroup>
+                  <ToggleGroup fx:id="generoGrupo" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" text="Feminino" toggleGroup="$generoGrupo" />
+            <RadioButton mnemonicParsing="false" selected="true" text="Neutro" toggleGroup="$generoGrupo" />
+         </children>
+      </HBox>
+      <Button fx:id="btVoltar" layoutX="262.0" layoutY="435.0" mnemonicParsing="false" onAction="#voltar" text="voltar" />
+      <Button fx:id="btCadastrar" layoutX="14.0" layoutY="435.0" mnemonicParsing="false" onAction="#editar" text="Cadastrar" />
+   </children>
+</AnchorPane>
