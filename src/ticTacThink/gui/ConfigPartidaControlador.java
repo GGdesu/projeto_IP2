@@ -1,19 +1,15 @@
 package ticTacThink.gui;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import ticTacThink.dados.gerenciadores.GerenciadorPergunta;
+import ticTacThink.GerenciadorPrincipal;
 
 public class ConfigPartidaControlador implements Initializable {
-
-    private GerenciadorPergunta gPergunta = new GerenciadorPergunta(); // temp
 
     @FXML
     private ChoiceBox<String> categoriaChoiceBox;
@@ -50,9 +46,6 @@ public class ConfigPartidaControlador implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         dificuldadeChoiceBox.setItems(FXCollections.observableArrayList("easy", "medium", "hard"));
         tipoChoiceBox.setItems(FXCollections.observableArrayList("multiple", "boolean"));
-        
-        ObservableList<String> list = FXCollections.observableArrayList(gPergunta.getCategorias());
-        Collections.sort(list);
-        categoriaChoiceBox.setItems(list);
+        categoriaChoiceBox.setItems(FXCollections.observableArrayList(GerenciadorPrincipal.getInstance().getCategoriasDisponiveis()));
     }
 }
