@@ -41,13 +41,14 @@ public class RankController implements Initializable {
 	}
 	
 
+	@FXML
+	void estatisticasPergunta() {
+		App.mudarTela("EstatisticasPergunta");
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		
 		carregarRank();
-		
-
 	}
 
 	private void carregarRank() {

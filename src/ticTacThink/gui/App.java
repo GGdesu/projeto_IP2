@@ -30,6 +30,8 @@ public class App extends Application {
 
     public static void mudarTela(String fxml) {
         stage.setScene(new Scene(carregarFXML(fxml)));
+        stage.setMinWidth(stage.getWidth());
+        stage.setMinHeight(stage.getHeight());
     }
     
     public static Scene getScene() {

@@ -1,13 +1,12 @@
 package ticTacThink;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ticTacThink.aplicacao.ControladorRank;
 import ticTacThink.aplicacao.ControladorUsuario;
-import ticTacThink.aplicacao.beans.Rank;
-import ticTacThink.aplicacao.beans.Usuario;
-import ticTacThink.dados.gerenciadores.GerenciadorRank;
-import ticTacThink.dados.gerenciadores.GerenciadorUsuario;
+import ticTacThink.aplicacao.beans.*;
+import ticTacThink.dados.gerenciadores.*;
 import ticTacThink.exceptions.UsuarioJaExiste;
 
 public class GerenciadorPrincipal {
@@ -17,6 +16,8 @@ public class GerenciadorPrincipal {
 
 	private ControladorUsuario controladorUsuario;
 	private ControladorRank controladorRank;
+	private GerenciadorPergunta gerenciadorPergunta = new GerenciadorPergunta(false); // TODO: será true após todos os testes
+	private final List<String> CATEGORIAS_DISPONIVEIS = gerenciadorPergunta.getCategorias();
 	
 	//CONSTRUCTOR
 	private GerenciadorPrincipal() {
@@ -68,5 +69,24 @@ public class GerenciadorPrincipal {
 	public ArrayList<Rank> rank() {
 		return this.controladorRank.pegarLista();
 	}
-	
+
+	public List<Pergunta> baixarPerguntas(int quantidade, String categoria, String dificuldade, String tipo) {
+		return gerenciadorPergunta.baixarPerguntas(quantidade, categoria, dificuldade, tipo);
+	}
+
+	public List<Pergunta> baixarPerguntas(int quantidade) {
+		return gerenciadorPergunta.baixarPerguntas(quantidade);
+	}
+
+	public void salvarPerguntas(List<Pergunta> perguntas, boolean[] acertadas) {
+		gerenciadorPergunta.salvarPerguntas(perguntas, acertadas);
+	}
+
+	public List<PerguntaInfo> estatisticasPerguntas() {
+		return gerenciadorPergunta.lerPerguntas();
+	}
+
+	public List<String> getCategoriasDisponiveis() {
+		return this.CATEGORIAS_DISPONIVEIS;
+	}
 }

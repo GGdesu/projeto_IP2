@@ -8,5 +8,6 @@ module ticTacThink {
 	opens ticTacThink.gui to javafx.fxml;
 	exports ticTacThink.gui;
 	exports ticTacThink;
+	exports ticTacThink.aplicacao.beans;
 	
 }

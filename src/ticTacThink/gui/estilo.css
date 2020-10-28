@@ -1,14 +1,23 @@
+.root {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #555555);
+}
 
-.titulo {
+.button, .label {
+    -fx-font-family: "system";
+    -fx-font-size: 14px;
+}
+
+.botao-grande {
+    -fx-font-family: "system";
+    -fx-font-size: 18px;
+}
+
+.titulo, .titulo-marca-dagua{
     -fx-font-family: "candara";
     -fx-font-size: 50px;
     -fx-text-fill: #4d4d4d;
 }
-
 .titulo-marca-dagua {
-    -fx-font-family: "candara";
-    -fx-font-size: 50px;
-    -fx-text-fill: #4d4d4d;
     -fx-opacity: 30%;
 }
 
@@ -28,34 +37,36 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
-.botao-minusculo {
-    -fx-font-family: "system";
-    -fx-font-size: 12px;
-}
-
-.botao-pequeno {
-    -fx-font-family: "system";
-    -fx-font-size: 14px;
-}
-
-.botao-grande {
-    -fx-font-family: "system";
-    -fx-font-size: 18px;
-}
-
-.gradient {
-    -fx-stroke: #ffffff00;
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #555555);
-}
 .gradient-resposta-certa {
-    -fx-stroke: #ffffff00;
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #0e7500);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #0e7500);
 }
 .gradient-resposta-errada {
-    -fx-stroke: #ffffff00;
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #da0000);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #da0000);
 }
 .gradient-partida {
-    -fx-stroke: #ffffff00;
-    -fx-fill: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #011b90);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #011b90);
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #00000010;
+}
+
+.table-view .scroll-bar,
+.table-row-cell:even {
+    -fx-background-color: #00000020;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #005797;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+    -fx-border: transparent;
+}
+
+.table-view .table-cell {
+    -fx-text-size: 12px;
 }
