@@ -13,6 +13,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -88,8 +89,8 @@ public class GerenciadorPergunta {
 			return null;
 		}
 	}
-	private ArrayList<Pergunta> converterParaPerguntas(JsonArray array) {
-		ArrayList<Pergunta> perguntas = new ArrayList<Pergunta>();
+	private List<Pergunta> converterParaPerguntas(JsonArray array) {
+		List<Pergunta> perguntas = new ArrayList<Pergunta>();
 		for (JsonElement jsonElement : array) {
 			JsonObject pergunta = jsonElement.getAsJsonObject();
 			
@@ -110,7 +111,7 @@ public class GerenciadorPergunta {
 				respostas[1] = "False";
 			} else { // multiple
 				// Misturando respostas
-				ArrayList<String> sorteador = new ArrayList<String>(4);
+				List<String> sorteador = new ArrayList<String>(4);
 				sorteador.add(respostaCerta);
 				for (JsonElement resposta : respostasErradas)
 					sorteador.add(resposta.getAsString());
@@ -175,16 +176,12 @@ public class GerenciadorPergunta {
 			var array = perguntaJson.get("info").getAsJsonArray();
 			int aparicoes = array.get(0).getAsInt();
 			int acertos	  = array.get(1).getAsInt();
-			int erros	  = array.get(2).getAsInt();
 			
 			aparicoes++; 
 			if (acertada)
 				acertos++;
-			else
-				erros++;
 			array.set(0, new JsonPrimitive(aparicoes));				
 			array.set(1, new JsonPrimitive(acertos));
-			array.set(2, new JsonPrimitive(erros));
 
 			FileWriter writer = new FileWriter(arquivo);
 			gson.toJson(json, writer);
@@ -217,7 +214,6 @@ public class GerenciadorPergunta {
 			JsonArray arrayInfo = new JsonArray();
 			arrayInfo.add(0); // aparicoes
 			arrayInfo.add(0); // acertos
-			arrayInfo.add(0); // erros
 			
 			item.add("resp",arrayRespostas);
 			item.add("info",arrayInfo);
@@ -234,14 +230,15 @@ public class GerenciadorPergunta {
 	}
 	
 	// MÉTODOS PÚBLICOS
-	public String[] getCategorias() {
-		String[] strings = new String[this.categoriasID.size()];
-		return this.categoriasID.keySet().toArray(strings);
+	public List<String> getCategorias() {
+		ArrayList<String> strings = new ArrayList<>(this.categoriasID.keySet());
+		Collections.sort(strings);
+		return strings;
 	}
 
 	// quantidade [min = 1, max = 50]
 	// Any = null (ex: "qualquer categoria" -> null)
-	public ArrayList<Pergunta> baixarPerguntas(int quantidade, String categoria, String dificuldade, String tipo) {
+	public List<Pergunta> baixarPerguntas(int quantidade, String categoria, String dificuldade, String tipo) {
 		String link = criarLink(quantidade, categoria, dificuldade, tipo);
 		JsonObject json = baixarJson(link);
 		
@@ -256,7 +253,7 @@ public class GerenciadorPergunta {
 			System.out.println("baixarPerguntas: Resultados Reduzidos... Resetando token..."); // mesmo assim tenta pegar algo
 			token("reset");
 			int perguntasRestantes = quantidade - resultados.size();
-			ArrayList<Pergunta> arrayFinal = baixarPerguntas(perguntasRestantes, categoria, dificuldade, tipo);
+			List<Pergunta> arrayFinal = baixarPerguntas(perguntasRestantes, categoria, dificuldade, tipo);
 			arrayFinal.addAll(converterParaPerguntas(resultados));
 			return arrayFinal;
 
@@ -271,59 +268,58 @@ public class GerenciadorPergunta {
 		}
 		return null;
 	}
-	public ArrayList<Pergunta> baixarPerguntas(int quantidade) {
+	public List<Pergunta> baixarPerguntas(int quantidade) {
 		return baixarPerguntas(quantidade,null,null,null);
 	}
 
-	public void salvarPerguntas(ArrayList<Pergunta> perguntas, boolean[] acertadas) {
+	public void salvarPerguntas(List<Pergunta> perguntas, boolean[] acertadas) {
 		int perguntaAtual = 0;
 		for (Pergunta pergunta : perguntas) {
 			boolean existe = verificarExistencia(pergunta);
-			if (existe)
-				atualizar(pergunta, acertadas[perguntaAtual]);
-			else
+			if (!existe)
 				cadastrar(pergunta);
+			atualizar(pergunta, acertadas[perguntaAtual]);
 			perguntaAtual++;
 		}
 	}
 
-	public ArrayList<PerguntaInfo> lerPerguntas() {
+	public List<PerguntaInfo> lerPerguntas() {
 		File dir = new File(this.diretorio);
-		File[] categorias = dir.listFiles();
-		String[] categoriasDisponiveis = this.getCategorias();
+		File[] pastasCategorias = dir.listFiles();
+		List<String> listaCategoria = this.getCategorias();
 
 		ArrayDeque<PerguntaInfo> deque = new ArrayDeque<>();
 		
-		// Entrando nos diretorios de categorias 
-		for (File dirCategoriaID : categorias) {
-			File[] tipos = dirCategoriaID.listFiles();
+		// Para cada diretório de categoria
+		for (File pastaCategoria : pastasCategorias) {
+			File[] pastasTipos = pastaCategoria.listFiles();
 			
 			// obtendo nome da categoria pelo id
-			String categoria = "";
-			for (String c : categoriasDisponiveis) {
+			String nomeCategoria = "";
+			for (String categoria : listaCategoria) {
 				// compara duas strings numericas e.g "11".equals("11")
-				if (this.categoriasID.get(c).toString().equals(dirCategoriaID.getName())) {
-					categoria = c;
+				if (this.categoriasID.get(categoria).toString().equals(pastaCategoria.getName())) {
+					nomeCategoria = categoria;
 					break;
 				}
 			}
 			// Para cada pasta de tipo [boolean, multiple]
-			for (File tipo : tipos) {
-				File[] dificuldades = tipo.listFiles();
+			for (File pastaTipo : pastasTipos) {
+				File[] arquivosDificuldades = pastaTipo.listFiles();
 
 				// Para cada pasta de dificuldade [easy, medium, hard]
-				for (File dificuldade : dificuldades) {
+				for (File arquivoDificuldade : arquivosDificuldades) {
 					try {
 						// Ler arquivo e pegar perguntas
-						var arquivo = new BufferedReader(new FileReader(dificuldade));
-						JsonObject json = gson.fromJson(arquivo, JsonObject.class);
+						BufferedReader leitorArquivo = new BufferedReader(new FileReader(arquivoDificuldade));
+						JsonObject json = gson.fromJson(leitorArquivo, JsonObject.class);
 						var entrySet = json.entrySet();
 						for (var entry : entrySet) {
 							String pergunta = entry.getKey();
 
 							// Lendo estatisticas
 							JsonArray estatisticas = entry.getValue().getAsJsonObject().get("info").getAsJsonArray();
-							var resp = entry.getValue().getAsJsonObject().get("resp").getAsJsonArray();
+							JsonArray resp = entry.getValue().getAsJsonObject().get("resp").getAsJsonArray();
 							
 							// Lendo Respostas
 							int certa = resp.get(0).getAsInt();
@@ -333,8 +329,8 @@ public class GerenciadorPergunta {
 							
 							// adicionando ao conjunto
 							deque.push(new PerguntaInfo(
-									new Pergunta(categoria, tipo.getName(), dificuldade.getName(), pergunta, respostas, certa),
-									estatisticas.get(0).getAsInt(), estatisticas.get(1).getAsInt(), estatisticas.get(2).getAsInt()));
+									new Pergunta(nomeCategoria, pastaTipo.getName(), arquivoDificuldade.getName(), pergunta, respostas, certa),
+									estatisticas.get(0).getAsInt(), estatisticas.get(1).getAsInt()));
 						}
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();

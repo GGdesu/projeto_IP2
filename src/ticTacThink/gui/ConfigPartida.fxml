@@ -1,52 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.ConfigPartidaControlador">
-   <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="400.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="gradient" width="600.0" />
-      <ChoiceBox fx:id="categoriaChoiceBox" layoutX="14.0" layoutY="46.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="dificuldadeChoiceBox" layoutX="14.0" layoutY="111.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="tipoChoiceBox" layoutX="14.0" layoutY="172.0" prefWidth="150.0" />
-      <Label layoutX="14.0" layoutY="29.0" styleClass="obsevacao" text="Categorias" />
-      <Label layoutX="14.0" layoutY="94.0" styleClass="obsevacao" text="Dificuldade" />
-      <Label layoutX="15.0" layoutY="155.0" styleClass="obsevacao" text="Tipo de resposta" />
-      <RadioButton layoutX="17.0" layoutY="223.0" mnemonicParsing="false" onAction="#rankedSelecionada" styleClass="botao-pequeno" text="Rankeada" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-         <toggleGroup>
-            <ToggleGroup fx:id="grupo" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton layoutX="17.0" layoutY="252.0" mnemonicParsing="false" onAction="#casualSelecionada" selected="true" styleClass="botao-pequeno" text="Casual" textFill="WHITE" toggleGroup="$grupo">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
-      <Button layoutX="14.0" layoutY="349.0" mnemonicParsing="false" onAction="#voltar" styleClass="botao-pequeno" text="Voltar">
-         <font>
-            <Font size="14.0" />
-         </font></Button>
-      <Label layoutX="266.0" layoutY="22.0" styleClass="info-tela" text="Escolha suas configurações de perguntas." textFill="WHITE">
-         <font>
-            <Font name="Candara Bold" size="18.0" />
-         </font>
+<BorderPane minHeight="400.0" minWidth="600.0" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.ConfigPartidaControlador">
+   <right>
+      <Label styleClass="titulo-marca-dagua" text="TIC TAC THINK!" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets right="10.0" />
+         </padding>
       </Label>
-      <Text fill="WHITE" layoutX="379.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="obsevacao" text="Caso queira perguntas aleatóriamente selecionadas deixe em branco." textAlignment="RIGHT" wrappingWidth="206.345703125" />
-      <Button layoutX="477.0" layoutY="349.0" mnemonicParsing="false" onAction="#iniciar" styleClass="botao-pequeno" text="Iniciar Partida!">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Label layoutX="259.0" layoutY="167.0" styleClass="titulo-marca-dagua" text="TIC TAC THINK!" />
-   </children>
-</AnchorPane>
+   </right>
+   <top>
+      <VBox alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="info-tela" text="Escolha suas configurações de perguntas." textFill="WHITE">
+               <font>
+                  <Font name="Candara Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="obsevacao" text="Caso queira perguntas aleatóriamente selecionadas deixe em branco." textAlignment="RIGHT" wrappingWidth="206.345703125" />
+         </children>
+         <BorderPane.margin>
+            <Insets right="1.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </top>
+   <left>
+      <VBox spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Categorias" />
+            <ChoiceBox fx:id="categoriaChoiceBox" prefWidth="150.0" />
+            <Label text="Dificuldade" />
+            <ChoiceBox fx:id="dificuldadeChoiceBox" prefWidth="150.0" />
+            <Label text="Tipo de resposta" />
+            <ChoiceBox fx:id="tipoChoiceBox" prefWidth="150.0" />
+            <RadioButton mnemonicParsing="false" onAction="#rankedSelecionada" text="Rankeada" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="grupo" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" onAction="#casualSelecionada" selected="true" text="Casual" textFill="WHITE" toggleGroup="$grupo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <bottom>
+      <HBox alignment="BOTTOM_CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#voltar" text="Voltar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#iniciar" text="Iniciar Partida!">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+</BorderPane>
