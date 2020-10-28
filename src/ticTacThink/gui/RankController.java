@@ -12,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 import ticTacThink.GerenciadorPrincipal;
 import ticTacThink.aplicacao.beans.Rank;
 
@@ -37,6 +39,7 @@ public class RankController implements Initializable {
 	void voltar() {
 		App.mudarTela("Menu");
 	}
+	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -60,5 +63,6 @@ public class RankController implements Initializable {
 		obsRank = FXCollections.observableArrayList(rank);
 
 		tvRank.setItems(obsRank);
+		
 	}
 }
