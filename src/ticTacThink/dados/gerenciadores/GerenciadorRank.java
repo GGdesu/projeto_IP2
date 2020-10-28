@@ -144,7 +144,7 @@ public class GerenciadorRank implements IGerenciadorRank {
 			}
 
 		} catch (IOException e) {
-			System.out.println("Arquivo inexistente!");
+			System.out.println("Rank: Arquivo inexistente!");
 
 		}
 	}

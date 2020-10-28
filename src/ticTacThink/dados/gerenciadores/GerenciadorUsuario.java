@@ -12,7 +12,7 @@ import ticTacThink.dados.IGerenciadorUsuario;
 
 public class GerenciadorUsuario implements IGerenciadorUsuario{
 	
-	private static final String CAMINHO_ARQUIVO = "arquivos\\usuarios.csv";
+	private static final String CAMINHO_ARQUIVO = "arquivos/usuarios.csv";
 	
 	private static GerenciadorUsuario uniqueInstance;
 	
@@ -130,7 +130,7 @@ public class GerenciadorUsuario implements IGerenciadorUsuario{
 			}
 
 		} catch (FileNotFoundException e1) {
-			System.out.println("Arquivo inexistente!");
+			System.out.println("Usuario: Arquivo inexistente!");
 		}
 	}
 }

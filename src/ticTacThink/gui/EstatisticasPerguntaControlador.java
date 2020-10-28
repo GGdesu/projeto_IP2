@@ -8,7 +8,9 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,15 +22,15 @@ public class EstatisticasPerguntaControlador implements Initializable {
     public class PerguntaInfoLinha {
         private String pergunta;
         private Integer aparicoes;
-        private String percentual;
+        private Float percentual;
 
         public PerguntaInfoLinha(PerguntaInfo pInfo) {
             this.pergunta = new String(pInfo.getPergunta().getTexto());
             this.aparicoes = pInfo.getAparicoes();
             try {
-                this.percentual = String.format("%.1f%%", 100.0f * pInfo.getAcertos() / (float)pInfo.getAparicoes());
+                this.percentual = 100.0f * pInfo.getAcertos() / (float)pInfo.getAparicoes();
             } catch (ArithmeticException e) {
-                this.percentual = "0%";
+                this.percentual = 0.0f;
             }
         }
         public String getPergunta() {
@@ -37,7 +39,7 @@ public class EstatisticasPerguntaControlador implements Initializable {
         public Integer getAparicoes() {
             return aparicoes;
         }
-        public String getPercentual() {
+        public Float getPercentual() {
             return percentual;
         }
     }
@@ -49,7 +51,7 @@ public class EstatisticasPerguntaControlador implements Initializable {
     @FXML
     private TableColumn<PerguntaInfoLinha, Integer> colunaAparicoes;
     @FXML
-    private TableColumn<PerguntaInfoLinha, String> colunaPercentual;
+    private TableColumn<PerguntaInfoLinha, Float> colunaPercentual;
 
     @FXML
     private ComboBox<String> categorias;
@@ -61,12 +63,25 @@ public class EstatisticasPerguntaControlador implements Initializable {
         categorias.setItems(FXCollections.observableArrayList(GerenciadorPrincipal.getInstance().getCategoriasDisponiveis()));
         categorias.getItems().add(0, "Categorias (Todas)");
         categorias.setValue("Categorias (Todas)");
-        // boolean[] bool = { false, false, true, false, true, true, false, true, true, false };
-        // GerenciadorPrincipal.getInstance().salvarPerguntas(GerenciadorPrincipal.getInstance().baixarPerguntas(10), bool);
         
         colunaPerguntas.setCellValueFactory(new PropertyValueFactory<>("pergunta"));
         colunaAparicoes.setCellValueFactory(new PropertyValueFactory<>("aparicoes"));
         colunaPercentual.setCellValueFactory(new PropertyValueFactory<>("percentual"));
+        colunaPercentual.setCellFactory(column -> {
+            return new TableCell<PerguntaInfoLinha, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    super.alignmentProperty().set(Pos.CENTER_RIGHT);
+                    if(empty) {
+                        setText(null);
+                    } else {
+                        this.setText(String.format("%.1f%%", item));
+                        this.setGraphic(null);
+                    }
+                }
+            };
+        });
 
         perguntasMostradas = GerenciadorPrincipal.getInstance().estatisticasPerguntas();
         atualizarTabela();
