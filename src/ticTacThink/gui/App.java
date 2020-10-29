@@ -32,8 +32,7 @@ public class App extends Application {
         Stage popup = new Stage();
         popup.setTitle(fxml.replaceAll("([A-Z][a-z]+)", "$1 "));
         popup.setScene(new Scene(carregarFXML(fxml)));
-        popup.setMinWidth(popup.getWidth());
-        popup.setMinHeight(popup.getHeight());
+        popup.setResizable(false);
         popup.show();
     }
 

@@ -133,9 +133,9 @@ public class GerenciadorPergunta {
 			
 			// Correção de elementos HTML
 			textoPergunta = Jsoup.parse(textoPergunta).text();
-			for (String resp : respostas)
-				resp = Jsoup.parse(resp).text();
-
+			for (int i = 0; i < respostas.length; i++) {
+				respostas[i] = Jsoup.parse(respostas[i]).text();
+			}
 			// Adicionando a lista
 			perguntas.add(new Pergunta(categoria, tipo, dificuldade, textoPergunta, respostas, indiceRespostaCerta));
 		} 
@@ -258,12 +258,10 @@ public class GerenciadorPergunta {
 			return converterParaPerguntas(resultados);
 
 		case 1: 
-			System.out.println("baixarPerguntas: Resultados Reduzidos... Resetando token..."); // mesmo assim tenta pegar algo
-			token("reset");
-			int perguntasRestantes = quantidade - resultados.size();
-			List<Pergunta> arrayFinal = baixarPerguntas(perguntasRestantes, categoria, dificuldade, tipo);
-			arrayFinal.addAll(converterParaPerguntas(resultados));
-			return arrayFinal;
+			System.out.println("baixarPerguntas: Resultados Reduzidos... foram encontrados "+ resultados.size() +" dos "+ quantidade); // mesmo assim tenta pegar algo
+			if (this.tokenDeSessao != null)
+				token("reset");
+			return converterParaPerguntas(resultados);
 
 		case 2: System.out.println("baixarPerguntas: Parametro Inválido.");	break;
 

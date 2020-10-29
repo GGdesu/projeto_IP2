@@ -47,11 +47,11 @@ public class InfoPerguntaControlador implements Initializable {
             var pergunta = perguntaInfo.getPergunta();
             var alternativasArray = pergunta.getRespostas();
 
-            var alternativasText = "";
-            for (String string : alternativasArray) {
-                alternativasText += string + "\n";
+            var alternativasText = alternativasArray[0];
+            for (int i = 1; i < alternativasArray.length; i++) {
+                alternativasText += "\n" + alternativasArray[i];
             }
-            texto.setText(new String(pergunta.getTexto()));
+            texto.setText(pergunta.getTexto());
             
             alternativas.setText(alternativasText);
             
