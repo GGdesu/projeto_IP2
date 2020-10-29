@@ -27,8 +27,17 @@ public class App extends Application {
             return new AnchorPane();
         }
     }
+    
+    public static void abrirPopup(String fxml) {
+        Stage popup = new Stage();
+        popup.setTitle(fxml.replaceAll("([A-Z][a-z]+)", "$1 "));
+        popup.setScene(new Scene(carregarFXML(fxml)));
+        popup.setResizable(false);
+        popup.show();
+    }
 
     public static void mudarTela(String fxml) {
+        stage.setTitle(fxml.replaceAll("([A-Z][a-z]+)", "$1 "));
         stage.setScene(new Scene(carregarFXML(fxml)));
         stage.setMinWidth(stage.getWidth());
         stage.setMinHeight(stage.getHeight());

@@ -21,6 +21,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import org.jsoup.Jsoup;
+
 import ticTacThink.aplicacao.beans.Pergunta;
 import ticTacThink.aplicacao.beans.PerguntaInfo;
 
@@ -98,12 +100,11 @@ public class GerenciadorPergunta {
 			String categoria = pergunta.get("category").getAsString();
 			String dificuldade = pergunta.get("difficulty").getAsString();
 			String textoPergunta = pergunta.get("question").getAsString();
-			
 			String respostaCerta = pergunta.get("correct_answer").getAsString();
 			JsonArray respostasErradas = pergunta.get("incorrect_answers").getAsJsonArray();
 			
 			String[] respostas;
-			int indiceRespostaCerta = 0;				
+			int indiceRespostaCerta = 0;
 			
 			if (tipo.equals("boolean")) {
 				respostas = new String[2];
@@ -114,7 +115,7 @@ public class GerenciadorPergunta {
 				List<String> sorteador = new ArrayList<String>(4);
 				sorteador.add(respostaCerta);
 				for (JsonElement resposta : respostasErradas)
-					sorteador.add(resposta.getAsString());
+				sorteador.add(resposta.getAsString());
 				Collections.shuffle(sorteador);
 				
 				// Convertendo para array
@@ -129,6 +130,13 @@ public class GerenciadorPergunta {
 					break;
 				}
 			}
+			
+			// Correção de elementos HTML
+			textoPergunta = Jsoup.parse(textoPergunta).text();
+			for (int i = 0; i < respostas.length; i++) {
+				respostas[i] = Jsoup.parse(respostas[i]).text();
+			}
+			// Adicionando a lista
 			perguntas.add(new Pergunta(categoria, tipo, dificuldade, textoPergunta, respostas, indiceRespostaCerta));
 		} 
 		return perguntas;
@@ -250,12 +258,10 @@ public class GerenciadorPergunta {
 			return converterParaPerguntas(resultados);
 
 		case 1: 
-			System.out.println("baixarPerguntas: Resultados Reduzidos... Resetando token..."); // mesmo assim tenta pegar algo
-			token("reset");
-			int perguntasRestantes = quantidade - resultados.size();
-			List<Pergunta> arrayFinal = baixarPerguntas(perguntasRestantes, categoria, dificuldade, tipo);
-			arrayFinal.addAll(converterParaPerguntas(resultados));
-			return arrayFinal;
+			System.out.println("baixarPerguntas: Resultados Reduzidos... foram encontrados "+ resultados.size() +" dos "+ quantidade); // mesmo assim tenta pegar algo
+			if (this.tokenDeSessao != null)
+				token("reset");
+			return converterParaPerguntas(resultados);
 
 		case 2: System.out.println("baixarPerguntas: Parametro Inválido.");	break;
 
@@ -327,10 +333,16 @@ public class GerenciadorPergunta {
 							for (int i = 1; i < resp.size(); i++)
 								respostas[i-1] = resp.get(i).getAsString();
 							
+							String tipo = pastaTipo.getName();
+							String dificuldade = arquivoDificuldade.getName().replace(".json", "");
+
+							var perguntaLida = new Pergunta(nomeCategoria, tipo, dificuldade, pergunta, respostas, certa);
+							
+							int acertos = estatisticas.get(0).getAsInt();
+							int aparicoes = estatisticas.get(1).getAsInt();
+							var perguntaInfoLida = new PerguntaInfo(perguntaLida, acertos, aparicoes);
 							// adicionando ao conjunto
-							deque.push(new PerguntaInfo(
-									new Pergunta(nomeCategoria, pastaTipo.getName(), arquivoDificuldade.getName(), pergunta, respostas, certa),
-									estatisticas.get(0).getAsInt(), estatisticas.get(1).getAsInt()));
+							deque.push(perguntaInfoLida);
 						}
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.InfoPerguntaControlador">
+   <top>
+      <Label styleClass="titulo" text="Pergunta" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <GridPane hgap="10.0" vgap="10.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="108.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.0" minWidth="10.0" prefWidth="242.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints fillHeight="false" valignment="TOP" />
+          <RowConstraints valignment="TOP" />
+          <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label styleClass="info" text="Categoria:" GridPane.rowIndex="3" />
+            <Label styleClass="info" text="Dificuldade:" GridPane.rowIndex="4" />
+            <Label styleClass="info" text="Tipo:" GridPane.rowIndex="2" />
+            <Label styleClass="info" text="Texto:" />
+            <Label styleClass="info" text="Alternativas:" GridPane.rowIndex="1" />
+            <CheckBox fx:id="respostaCBox" mnemonicParsing="false" onAction="#toggleResposta" styleClass="info" text="Resposta" GridPane.rowIndex="5" />
+            <Label layoutX="10.0" layoutY="179.0" styleClass="info" text="Apariçoes:" GridPane.rowIndex="6" />
+            <Label layoutX="10.0" layoutY="19.0" styleClass="info" text="Acertos" GridPane.rowIndex="7" />
+            <Label fx:id="categoria" layoutX="95.0" layoutY="135.0" styleClass="info" text="&lt;Categoria&gt;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="dificuldade" layoutX="86.0" layoutY="167.0" styleClass="info" text="&lt;Dificuldade&gt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="tipo" layoutX="128.0" layoutY="103.0" styleClass="info" text="&lt;Tipo&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="respostaCerta" layoutX="58.0" layoutY="199.0" styleClass="info" text="&lt;Resposta Certa&gt;" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="aparicoes" layoutX="93.0" layoutY="231.0" styleClass="info" text="&lt;Apariçoes&gt;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="acertos" layoutX="57.0" layoutY="263.0" styleClass="info" text="&lt;Acertos&gt;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="alternativas" layoutX="148.0" layoutY="30.0" styleClass="info" text="&lt;Alternativas&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="texto" alignment="TOP_LEFT" lineSpacing="2.0" styleClass="info" text="&lt;Texto&gt;" wrapText="true" GridPane.columnIndex="1" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </GridPane>
+   </center>
+</BorderPane>

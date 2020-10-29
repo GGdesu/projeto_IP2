@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ticTacThink.GerenciadorPrincipal;
@@ -20,11 +21,13 @@ import ticTacThink.aplicacao.beans.PerguntaInfo;
 public class EstatisticasPerguntaControlador implements Initializable {
 
     public class PerguntaInfoLinha {
+        private PerguntaInfo referencia;
         private String pergunta;
         private Integer aparicoes;
         private Float percentual;
 
         public PerguntaInfoLinha(PerguntaInfo pInfo) {
+            this.referencia = pInfo;
             this.pergunta = new String(pInfo.getPergunta().getTexto());
             this.aparicoes = pInfo.getAparicoes();
             try {
@@ -32,6 +35,9 @@ public class EstatisticasPerguntaControlador implements Initializable {
             } catch (ArithmeticException e) {
                 this.percentual = 0.0f;
             }
+        }
+        public PerguntaInfo getReferencia() {
+            return referencia;
         }
         public String getPergunta() {
             return pergunta;
@@ -80,7 +86,19 @@ public class EstatisticasPerguntaControlador implements Initializable {
                         this.setGraphic(null);
                     }
                 }
+                
             };
+        });
+        tabela.setRowFactory(action -> {
+            var row = new TableRow<PerguntaInfoLinha>();
+            row.setOnMouseClicked(mouseClicked-> {
+                if (mouseClicked.getClickCount() == 2 && !row.isEmpty()) {
+                    var item = row.getItem().getReferencia();
+                    InfoPerguntaControlador.setPerguntaInfo(item);
+                    App.abrirPopup("InfoPergunta");
+                }
+            });
+            return row;
         });
 
         perguntasMostradas = GerenciadorPrincipal.getInstance().estatisticasPerguntas();
