@@ -29,6 +29,12 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0.0, 0.0);
 }
 
+.info {
+    -fx-font-weight: bold;
+    -fx-font-family: "candara";
+    -fx-font-size: 16px;
+}
+
 .obsevacao {
     -fx-font-family: "system";
     -fx-font-size: 12px;
@@ -49,6 +55,8 @@
 
 .table-view {
     -fx-background-color: transparent;
+    -fx-table-cell-border-color: #00000025;
+    -fx-font-size: 16px;
 }
 
 .table-row-cell:odd {
@@ -65,8 +73,4 @@
     -fx-background-insets: 0;
     -fx-background-radius: 1;
     -fx-border: transparent;
-}
-
-.table-view .table-cell {
-    -fx-text-size: 12px;
 }

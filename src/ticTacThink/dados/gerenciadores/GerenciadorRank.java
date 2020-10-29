@@ -12,7 +12,7 @@ import ticTacThink.dados.IGerenciadorRank;
 
 public class GerenciadorRank implements IGerenciadorRank {
 
-	private static final String CAMINHO_ARQUIVO = "arquivos\\rank.csv";
+	private static final String CAMINHO_ARQUIVO = "arquivos/rank.csv";
 
 	private static GerenciadorRank uniqueInstance;
 

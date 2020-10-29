@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="botao-grande" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.EstatisticasPerguntaControlador">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@estilo.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ticTacThink.gui.EstatisticasPerguntaControlador">
    <center>
       <TableView fx:id="tabela" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="colunaAparicoes" editable="false" minWidth="-1.0" text="Aparições" />
-          <TableColumn fx:id="colunaPerguntas" editable="false" prefWidth="338.0" text="Pergunta" />
-            <TableColumn fx:id="colunaPercentual" editable="false" minWidth="-1.0" prefWidth="156.0" text="Percentual de Acertos" />
+          <TableColumn fx:id="colunaPerguntas" editable="false" prefWidth="428.0" text="Pergunta" />
+            <TableColumn fx:id="colunaPercentual" editable="false" minWidth="-1.0" prefWidth="66.0" text="Acertos" />
         </columns>
          <opaqueInsets>
             <Insets />
