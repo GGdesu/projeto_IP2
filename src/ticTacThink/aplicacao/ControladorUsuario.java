@@ -15,8 +15,8 @@ public class ControladorUsuario {
 	
 	//METODOS
 	public Usuario login(String email, String senha) {
-		if(this.gerenciadorUsuario.verificarExistenciaObjeto(email)) {
-			Usuario usuario = this.gerenciadorUsuario.verificarObjeto(email);
+		if(this.gerenciadorUsuario.verificarExistenciaUsuario(email)) {
+			Usuario usuario = this.gerenciadorUsuario.verificarUsuario(email);
 			if(usuario.getSenha().equals(senha)) {
 				return usuario;
 			}
@@ -31,7 +31,7 @@ public class ControladorUsuario {
 		if(usuario == null) {
 			throw new IllegalArgumentException("par�metro incorreto.");
 			
-		}else if(!this.gerenciadorUsuario.verificarExistenciaObjeto(usuario.getEmail())) {
+		}else if(!this.gerenciadorUsuario.verificarExistenciaUsuario(usuario.getEmail())) {
 			this.gerenciadorUsuario.cadastrar(usuario);
 			
 		}else {
@@ -47,12 +47,17 @@ public class ControladorUsuario {
 	 *esse remover vai servir pra excluir a conta atual de qualquer jeito.
 	*/
 	public void remover(Usuario usuario) {
-		if(this.gerenciadorUsuario.verificarExistenciaObjeto(usuario.getEmail())) {
+		if(this.gerenciadorUsuario.verificarExistenciaUsuario(usuario.getEmail())) {
 			this.gerenciadorUsuario.remover(usuario);
 		}else {
 			//Usuario n�o existe no banco de dados
 			System.out.println("Usu�rio n�o encontrado.");
 		}
+		
+	}
+	
+	public boolean verificarExistenciaUsuario(String email) {
+		return this.gerenciadorUsuario.verificarExistenciaUsuario(email);
 		
 	}
 	

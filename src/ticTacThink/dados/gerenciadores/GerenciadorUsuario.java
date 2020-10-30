@@ -51,7 +51,7 @@ public class GerenciadorUsuario implements IGerenciadorUsuario{
 	}
 	
 	@Override
-	public Usuario verificarObjeto(String email) {
+	public Usuario verificarUsuario(String email) {
 		
 		for(Usuario u : this.usuarios) {
 			if(u.getEmail().equals(email)) {
@@ -63,7 +63,7 @@ public class GerenciadorUsuario implements IGerenciadorUsuario{
 	}
 	
 	@Override
-	public boolean verificarExistenciaObjeto(String email) {
+	public boolean verificarExistenciaUsuario(String email) {
 		
 		for(Usuario u: this.usuarios) {
 			if(u.getEmail().equals(email)) {
@@ -89,7 +89,7 @@ public class GerenciadorUsuario implements IGerenciadorUsuario{
 				csvWriter.append(",");
 				csvWriter.append(u.getGenero());
 				csvWriter.append(",");
-				csvWriter.append(String.valueOf(u.getIdade()));
+				csvWriter.append(u.getDataNasc());
 				csvWriter.append(",");
 				csvWriter.append(String.valueOf(u.getPontuacao()));
 				csvWriter.append("\n");

@@ -61,6 +61,10 @@ public class GerenciadorPrincipal {
 		this.controladorUsuario.atualizar(usuario);
 	}
 	
+	public boolean existeUsuario(String email) {
+		return this.controladorUsuario.verificarExistenciaUsuario(email);
+	}
+	
 	//RANK
 	public void verificarRanker(Rank ranker) {
 		this.controladorRank.verificaPontuacao(ranker);
