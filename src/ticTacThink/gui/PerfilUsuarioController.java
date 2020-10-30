@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import ticTacThink.GerenciadorPrincipal;
-import ticTacThink.aplicacao.beans.Usuario;
 
 public class PerfilUsuarioController implements Initializable {
 
@@ -29,8 +28,6 @@ public class PerfilUsuarioController implements Initializable {
 	@FXML
 	private Label labelEmail;
 
-	private Usuario u = GerenciadorPrincipal.getUsuarioInstancia();
-
 	@FXML
 	void voltar() {
 		App.mudarTela("Menu");
@@ -44,16 +41,17 @@ public class PerfilUsuarioController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		carregarValores();
+		System.out.println("Informações carregadas com sucesso!");
 	}
 
 	private void carregarValores() {
 		
-		labelNome.setText(u.getNome());
-		labelNasc.setText(u.getDataNasc());
-		labelGen.setText(u.getGenero());
-		labelPais.setText(u.getPais());
-		labelPon.setText(String.valueOf(u.getPontuacao()));
-		labelEmail.setText(u.getEmail());
+		labelNome.setText(GerenciadorPrincipal.getUsuarioInstancia().getNome());
+		labelNasc.setText(GerenciadorPrincipal.getUsuarioInstancia().getDataNasc());
+		labelGen.setText(GerenciadorPrincipal.getUsuarioInstancia().getGenero());
+		labelPais.setText(GerenciadorPrincipal.getUsuarioInstancia().getPais());
+		labelPon.setText(String.valueOf(GerenciadorPrincipal.getUsuarioInstancia().getPontuacao()));
+		labelEmail.setText(GerenciadorPrincipal.getUsuarioInstancia().getEmail());
 	}
 
 }

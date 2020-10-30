@@ -48,32 +48,32 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Nome">
+            <Label styleClass="info-tela" text="Nome">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Data de Nascimento" GridPane.rowIndex="1">
+            <Label styleClass="info-tela" text="Data de Nascimento" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Gênero" GridPane.rowIndex="2">
+            <Label styleClass="info-tela" text="Gênero" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="País" GridPane.rowIndex="3">
+            <Label styleClass="info-tela" text="País" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Pontuação" GridPane.rowIndex="4">
+            <Label styleClass="info-tela" text="Pontuação" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Email" GridPane.rowIndex="5">
+            <Label styleClass="info-tela" text="Email" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>

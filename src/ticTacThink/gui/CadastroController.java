@@ -145,8 +145,6 @@ public class CadastroController implements Initializable {
 
 		String dataFormatada = ld.format(DateTimeFormatter.ofPattern(pattern));
 
-		System.out.println("data formatada: " + dataFormatada);
-
 		return dataFormatada;
 
 	}
