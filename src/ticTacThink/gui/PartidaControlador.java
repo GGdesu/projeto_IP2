@@ -17,45 +17,51 @@ import ticTacThink.GerenciadorPrincipal;
 import ticTacThink.aplicacao.beans.Pergunta;
 
 public class PartidaControlador implements Initializable {
+    
+    private final int TEMPO_POR_PERGUNTA = 20;
+    
+    // Trakers
+    private int t = TEMPO_POR_PERGUNTA;
+    private Pergunta perguntaAtual;
+    private Timeline animation;
 
     @FXML
     private Label perguntaLabel;
     @FXML
     private VBox respostasVBox;
-
     @FXML
-    private VBox popupFimDoTempo;
-    
+    private VBox popup;
+
+    // Contadores
     @FXML
     private Label perguntasRestantes;
-    
     @FXML
     private Label tempoRestante;
 
-    private Pergunta perguntaAtual;
-    Timeline animation;
-    int t = 20;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        popupFimDoTempo.setVisible(true);
-
         animation = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 atualizarContador();
                 if (t-- == 0) {
                     fimDoTempo();
-                    t = 20;
+                    t = TEMPO_POR_PERGUNTA;
                 }
             }
         }));
-        animation.setCycleCount(21);
-        System.out.println(animation.getDelay());
+        animation.setCycleCount(TEMPO_POR_PERGUNTA + 1);
+        proximaPergunta();
+    }
+
+    private void mostrarPopup(boolean visibilidade) {
+        popup.setVisible(visibilidade);
+        respostasVBox.setDisable(visibilidade);
     }
     
     private void fimDoTempo() {
-        popupFimDoTempo.setVisible(true);
+        mostrarPopup(true);
         GerenciadorPrincipal.getPartida().responderPergunta(null);
     }
     private void atualizarContador() {
@@ -69,9 +75,9 @@ public class PartidaControlador implements Initializable {
 
     @FXML
     void proximaPergunta() {
-        popupFimDoTempo.setVisible(false);
+        mostrarPopup(false);
+        t = TEMPO_POR_PERGUNTA;
         animation.playFromStart();
-        t = 20;
         perguntaAtual = GerenciadorPrincipal.getPartida().pegarPergunta();
 
         perguntaLabel.setText(perguntaAtual.getTexto());
@@ -95,7 +101,7 @@ public class PartidaControlador implements Initializable {
     @FXML
     void sair() {
         GerenciadorPrincipal.getInstance().finalizarPartida();
-        App.mudarTela("Menu");
+        App.mudarTela("ConfigPartida");
     }
 
 }

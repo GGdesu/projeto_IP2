@@ -94,3 +94,9 @@
     -fx-background-radius: 1;
     -fx-border: transparent;
 }
+
+/* PARTIDA */
+.popup-info {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #dddddd, #084cca);
+    -fx-background-radius: 10%;
+}

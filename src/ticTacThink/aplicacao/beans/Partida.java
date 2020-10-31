@@ -6,13 +6,22 @@ import java.util.Deque;
 
 public class Partida {
 
+    // Parametros selecionados
+    // serão null caso não seja selecionado
+    private String categoria;
+    private String dificuldade;
+    private String tipo;
+
     private boolean ranqueada;
     private Deque<Pergunta> perguntas;
     private Pergunta perguntaAtual;
     private Deque<PerguntaInfo> respondidas;
 
-    public Partida(boolean ranqueada, Collection<Pergunta> perguntas) {
-        respondidas = new ArrayDeque<>();
+    public Partida(String categoria, String dificuldade, String tipo, boolean ranqueada, Collection<Pergunta> perguntas) {
+        this.dificuldade = dificuldade;
+        this.categoria = categoria;
+        this.tipo = tipo;
+        this.respondidas = new ArrayDeque<>();
         this.perguntas = new ArrayDeque<>(perguntas);
         this.ranqueada = ranqueada;
     }
@@ -26,17 +35,13 @@ public class Partida {
         return perguntas.size();
     }
 
-    /* 
-     * Salva uma referencia da pergunta e a entrega.
-     */
+    // Salva uma referencia da pergunta e a entrega.
     public Pergunta pegarPergunta() {
         perguntaAtual = this.perguntas.pop();
         return perguntaAtual;
     }
 
-    /* 
-     * Responde a ultima pergunta pedida.
-     */
+    // Responde a ultima pergunta pedida.
     public void responderPergunta(String resposta) {
         boolean acertou = perguntaAtual.responder(resposta);
         PerguntaInfo perguntaInfo = new PerguntaInfo(perguntaAtual, 1, acertou ? 1 : 0);
@@ -45,9 +50,38 @@ public class Partida {
         perguntaAtual = null;
     }
 
+    // Adiciona novas perguntas ao deque
+    public void adicionarPerguntas(Collection<Pergunta> perguntasAdicionais) {
+        perguntas.addAll(perguntasAdicionais);
+    }
 
-    // pega array de respondidas para salvar
+    // Get / Set
+    
     public Deque<PerguntaInfo> getRespondidas() {
         return respondidas;
+    }
+
+    public String getDificuldade() {
+        return dificuldade;
+    }
+
+    public void setDificuldade(String dificuldade) {
+        this.dificuldade = dificuldade;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

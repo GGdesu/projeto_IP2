@@ -285,7 +285,8 @@ public class GerenciadorPergunta {
 	}
 
 	public void salvarPerguntas(Collection<PerguntaInfo> perguntas) {
-			for (PerguntaInfo pergunta : perguntas) {
+		if (perguntas == null) return;
+		for (PerguntaInfo pergunta : perguntas) {
 			boolean existe = verificarExistencia(pergunta);
 			if (existe) atualizar(pergunta);
 			else cadastrar(pergunta);

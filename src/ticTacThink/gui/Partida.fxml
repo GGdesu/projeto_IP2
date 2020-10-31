@@ -23,7 +23,7 @@
                <HBox.margin>
                   <Insets />
                </HBox.margin></Label>
-            <Label fx:id="perguntasRestantes" layoutX="650.0" layoutY="24.0" styleClass="info-tela" text="&lt;perguntas restantes&gt;">
+            <Label fx:id="perguntasRestantes" layoutX="650.0" layoutY="24.0" styleClass="info-tela">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -35,7 +35,7 @@
       <StackPane BorderPane.alignment="TOP_CENTER">
          <children>
             <VBox fx:id="respostasVBox" alignment="CENTER" spacing="20.0" stylesheets="@estilo.css" />
-            <VBox fx:id="popupFimDoTempo" alignment="CENTER" maxHeight="300.0" maxWidth="300.0" spacing="50.0" styleClass="tempo-esgotado">
+            <VBox fx:id="popup" alignment="CENTER" maxHeight="300.0" maxWidth="300.0" spacing="50.0" styleClass="tempo-esgotado" visible="false">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
@@ -64,8 +64,8 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label fx:id="tempoRestante" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" styleClass="info-tela" text="&lt;Timer&gt;" />
-            <Label fx:id="perguntaLabel" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" styleClass="pergunta" text="&lt;Pergunta&gt;" wrapText="true">
+            <Label fx:id="tempoRestante" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" styleClass="info-tela" />
+            <Label fx:id="perguntaLabel" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" styleClass="pergunta" wrapText="true">
                <VBox.margin>
                   <Insets />
                </VBox.margin>

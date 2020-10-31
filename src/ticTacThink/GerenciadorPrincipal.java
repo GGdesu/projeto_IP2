@@ -95,8 +95,8 @@ public class GerenciadorPrincipal {
 	}
 
 	//Partida
-	public void criarPartida(boolean ranqueada, Collection<Pergunta> perguntas) {
-		partida = new Partida(ranqueada, perguntas);
+	public void criarPartida(String categoria, String dificuldade, String tipo, boolean ranqueada, Collection<Pergunta> perguntas) {
+		partida = new Partida(categoria, dificuldade, tipo, ranqueada, perguntas);
 	}
 
 	public static Partida getPartida() {

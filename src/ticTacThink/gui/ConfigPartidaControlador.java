@@ -1,6 +1,7 @@
 package ticTacThink.gui;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import ticTacThink.GerenciadorPrincipal;
+import ticTacThink.aplicacao.beans.Pergunta;
 
 public class ConfigPartidaControlador implements Initializable {
 
@@ -43,18 +45,37 @@ public class ConfigPartidaControlador implements Initializable {
 
     @FXML
     void iniciar() {
+        boolean todosTipos = tipoComboBox.getSelectionModel().getSelectedIndex() == 0;
+        boolean todasCategorias = categoriaComboBox.getSelectionModel().getSelectedIndex() == 0;
+        boolean todasDificuldades = dificuldadeComboBox.getSelectionModel().getSelectedIndex() == 0;
+
         var tipo = tipoComboBox.getSelectionModel().getSelectedItem();
         var categoria = categoriaComboBox.getSelectionModel().getSelectedItem();
         var dificuldade = dificuldadeComboBox.getSelectionModel().getSelectedItem();
-        var perguntas = GerenciadorPrincipal.getInstance().baixarPerguntas(15, categoria, dificuldade, tipo);
-        GerenciadorPrincipal.getInstance().criarPartida(ranqueada, perguntas);
-        App.mudarTela("Partida");
+
+        List<Pergunta> perguntas;
+        if (ranqueada) {
+            perguntas = GerenciadorPrincipal.getInstance().baixarPerguntas(15);
+        } else {
+            perguntas = GerenciadorPrincipal.getInstance().baixarPerguntas(15, 
+                todasCategorias ? null : categoria, 
+                todasDificuldades ? null : dificuldade,
+                todosTipos ? null : tipo);
+        }
+        GerenciadorPrincipal.getInstance().criarPartida(categoria, dificuldade, tipo, ranqueada, perguntas);
+        App.mudarTela("PartidaInicio");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dificuldadeComboBox.setItems(FXCollections.observableArrayList("easy", "medium", "hard"));
-        tipoComboBox.setItems(FXCollections.observableArrayList("multiple", "boolean"));
+        dificuldadeComboBox.setItems(FXCollections.observableArrayList("Todas", "easy", "medium", "hard"));
         categoriaComboBox.setItems(FXCollections.observableArrayList(GerenciadorPrincipal.getInstance().getCategoriasDisponiveis()));
+        tipoComboBox.setItems(FXCollections.observableArrayList("Todas", "multiple", "boolean"));
+
+        categoriaComboBox.getItems().add(0, "Todas");
+        
+        dificuldadeComboBox.getSelectionModel().select(0);
+        categoriaComboBox.getSelectionModel().select(0);
+        tipoComboBox.getSelectionModel().select(0);
     }
 }
