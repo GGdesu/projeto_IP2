@@ -286,7 +286,9 @@ public class GerenciadorPergunta {
 
 	public void salvarPerguntas(Collection<PerguntaInfo> perguntas) {
 		if (perguntas == null) return;
+		System.out.println("Salvando Perguntas:");
 		for (PerguntaInfo pergunta : perguntas) {
+			System.out.println("\t"+pergunta.getPergunta().getTexto());
 			boolean existe = verificarExistencia(pergunta);
 			if (existe) atualizar(pergunta);
 			else cadastrar(pergunta);
@@ -354,6 +356,7 @@ public class GerenciadorPergunta {
 				}
 			}
 		}
+		System.out.println("Foram lidas " + deque.size() + " perguntas.");
 		return new ArrayList<PerguntaInfo>(deque);
 	}
 }

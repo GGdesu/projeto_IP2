@@ -3,6 +3,7 @@ package ticTacThink.aplicacao.beans;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.NoSuchElementException;
 
 public class Partida {
 
@@ -11,6 +12,8 @@ public class Partida {
     private String categoria;
     private String dificuldade;
     private String tipo;
+
+    private int pontuacao;
 
     private boolean ranqueada;
     private Deque<Pergunta> perguntas;
@@ -36,18 +39,20 @@ public class Partida {
     }
 
     // Salva uma referencia da pergunta e a entrega.
-    public Pergunta pegarPergunta() {
+    public Pergunta pegarPergunta() throws NoSuchElementException {
         perguntaAtual = this.perguntas.pop();
         return perguntaAtual;
     }
 
     // Responde a ultima pergunta pedida.
-    public void responderPergunta(String resposta) {
+    public boolean responderPergunta(String resposta) {
         boolean acertou = perguntaAtual.responder(resposta);
+        if (acertou) pontuacao += 20;
         PerguntaInfo perguntaInfo = new PerguntaInfo(perguntaAtual, 1, acertou ? 1 : 0);
 
         respondidas.push(perguntaInfo);
         perguntaAtual = null;
+        return acertou;
     }
 
     // Adiciona novas perguntas ao deque
@@ -83,5 +88,9 @@ public class Partida {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public int getPontuacao() {
+        return pontuacao;
     }
 }

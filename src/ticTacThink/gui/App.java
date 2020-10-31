@@ -37,6 +37,8 @@ public class App extends Application {
     }
 
     public static void mudarTela(String fxml) {
+        System.out.println("Abrindo "+ fxml);
+
         stage.setTitle(fxml.replaceAll("([A-Z][a-z]+)", "$1 "));
         stage.setScene(new Scene(carregarFXML(fxml)));
         stage.setMinWidth(stage.getWidth());

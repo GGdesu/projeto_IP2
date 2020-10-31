@@ -53,17 +53,19 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
-.tempo-esgotado {
-    -fx-background-radius: 10% 10% 10% 10%;
+/* PARTIDA */
+.popup-info {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #dddddd, #084cca);
+    -fx-background-radius: 10%;
 }
-
-.gradient-resposta-certa {
+.popup-resposta-certa {
     -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f0f0f0, #0e7500);
+    -fx-background-radius: 10%;
 }
 
-.tempo-esgotado,
-.gradient-resposta-errada {
+.popup-resposta-errada {
     -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f0f0f0, #da0000);
+    -fx-background-radius: 10%;
 }
 
 .gradient-partida {
@@ -95,8 +97,3 @@
     -fx-border: transparent;
 }
 
-/* PARTIDA */
-.popup-info {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #dddddd, #084cca);
-    -fx-background-radius: 10%;
-}

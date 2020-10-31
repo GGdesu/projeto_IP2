@@ -63,7 +63,7 @@ public class ConfigPartidaControlador implements Initializable {
                 todosTipos ? null : tipo);
         }
         GerenciadorPrincipal.getInstance().criarPartida(categoria, dificuldade, tipo, ranqueada, perguntas);
-        App.mudarTela("PartidaInicio");
+        App.mudarTela("Partida");
     }
 
     @Override
