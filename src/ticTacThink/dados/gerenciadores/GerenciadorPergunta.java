@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -157,37 +158,39 @@ public class GerenciadorPergunta {
 	}
 	
 	// MÉTODOS DE ARMAZENAMENTO
-	private File arquivoDa(Pergunta pergunta) {
+	private File getArquivo(Pergunta pergunta) {
 		return new File(this.diretorio + categoriasID.get(pergunta.getCategoria()) + "/" + 
 				pergunta.getTipo() + "/" + pergunta.getDificuldade() + ".json");
 	}
-	private boolean verificarExistencia(Pergunta pergunta) {
-		File arquivo = arquivoDa(pergunta);
+
+	private boolean verificarExistencia(PerguntaInfo perguntaInfo) {
+		File arquivo = getArquivo(perguntaInfo.getPergunta());
 		if (!arquivo.exists()) return false;
 		try {
 			FileReader leitor = new FileReader(arquivo);
 			JsonObject json = gson.fromJson(leitor, JsonObject.class);
-			return json.has(pergunta.getTexto());
+			return json.has(perguntaInfo.getPergunta().getTexto());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return false;
 		}
 		
 	}
-	private void atualizar(Pergunta pergunta, boolean acertada) {
+	private void atualizar(PerguntaInfo perguntaInfo) {
 		try {
-			File arquivo = arquivoDa(pergunta);
+			File arquivo = getArquivo(perguntaInfo.getPergunta());
 			FileReader leitor = new FileReader(arquivo);
 			JsonObject json = gson.fromJson(leitor, JsonObject.class);
-			JsonObject perguntaJson = json.get(pergunta.getTexto()).getAsJsonObject();
+			String textoPergunta = perguntaInfo.getPergunta().getTexto();
+			JsonObject perguntaJson = json.get(textoPergunta).getAsJsonObject();
 
 			var array = perguntaJson.get("info").getAsJsonArray();
 			int aparicoes = array.get(0).getAsInt();
 			int acertos	  = array.get(1).getAsInt();
 			
-			aparicoes++; 
-			if (acertada)
-				acertos++;
+			aparicoes += perguntaInfo.getAparicoes(); 
+			acertos += perguntaInfo.getAcertos();
+			
 			array.set(0, new JsonPrimitive(aparicoes));				
 			array.set(1, new JsonPrimitive(acertos));
 
@@ -199,7 +202,9 @@ public class GerenciadorPergunta {
 			e.printStackTrace();
 		}
 	}
-	private void cadastrar(Pergunta pergunta) {
+
+	private void cadastrar(PerguntaInfo perguntaInfo) {
+		var pergunta = perguntaInfo.getPergunta();
 		String caminho = this.diretorio +
 				categoriasID.get(pergunta.getCategoria()) +"/"+
 				pergunta.getTipo() +"/"+ pergunta.getDificuldade() + ".json";
@@ -213,20 +218,21 @@ public class GerenciadorPergunta {
 			} else {
 				json = gson.fromJson(new FileReader(arquivo), JsonObject.class);
 			}
-			JsonObject item = new JsonObject();
+
 			JsonArray arrayRespostas = new JsonArray();
 			arrayRespostas.add(pergunta.getCerta());
 			for (var r : pergunta.getRespostas())
-				arrayRespostas.add(r);
-		
-			JsonArray arrayInfo = new JsonArray();
-			arrayInfo.add(0); // aparicoes
-			arrayInfo.add(0); // acertos
+			arrayRespostas.add(r);
 			
-			item.add("resp",arrayRespostas);
-			item.add("info",arrayInfo);
+			JsonArray arrayInfo = new JsonArray();
+			arrayInfo.add(perguntaInfo.getAparicoes());
+			arrayInfo.add(perguntaInfo.getAcertos());
+			
+			JsonObject item = new JsonObject();
+			item.add("resp", arrayRespostas);
+			item.add("info", arrayInfo);
 
-			// Fomato "Pergunta":[['resposta', ...], [info, ...]]
+			// Fomato "Pergunta":["resposta": [...], "info": [...]]
 			json.add(pergunta.getTexto(), item);
 			
 			FileWriter writer = new FileWriter(arquivo);
@@ -278,14 +284,14 @@ public class GerenciadorPergunta {
 		return baixarPerguntas(quantidade,null,null,null);
 	}
 
-	public void salvarPerguntas(List<Pergunta> perguntas, boolean[] acertadas) {
-		int perguntaAtual = 0;
-		for (Pergunta pergunta : perguntas) {
+	public void salvarPerguntas(Collection<PerguntaInfo> perguntas) {
+		if (perguntas == null) return;
+		System.out.println("Salvando Perguntas:");
+		for (PerguntaInfo pergunta : perguntas) {
+			System.out.println("\t"+pergunta.getPergunta().getTexto());
 			boolean existe = verificarExistencia(pergunta);
-			if (!existe)
-				cadastrar(pergunta);
-			atualizar(pergunta, acertadas[perguntaAtual]);
-			perguntaAtual++;
+			if (existe) atualizar(pergunta);
+			else cadastrar(pergunta);
 		}
 	}
 
@@ -350,6 +356,7 @@ public class GerenciadorPergunta {
 				}
 			}
 		}
+		System.out.println("Foram lidas " + deque.size() + " perguntas.");
 		return new ArrayList<PerguntaInfo>(deque);
 	}
 }
