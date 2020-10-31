@@ -40,14 +40,14 @@
       </VBox>
    </top>
    <left>
-      <VBox spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox prefWidth="250.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Categorias" />
-            <ComboBox fx:id="categoriaComboBox" maxWidth="250.0" prefWidth="250.0" promptText="Todas" styleClass="button" />
+            <ComboBox fx:id="categoriaComboBox" maxWidth="1.7976931348623157E308" promptText="Todas" styleClass="button" />
             <Label text="Dificuldade" />
-            <ComboBox fx:id="dificuldadeComboBox" layoutX="20.0" layoutY="40.0" promptText="Todas" styleClass="button" />
+            <ComboBox fx:id="dificuldadeComboBox" layoutX="20.0" layoutY="40.0" maxWidth="1.7976931348623157E308" promptText="Todas" styleClass="button" />
             <Label text="Tipo de resposta" />
-            <ComboBox fx:id="tipoComboBox" layoutX="20.0" layoutY="195.0" promptText="Todos" styleClass="button" />
+            <ComboBox fx:id="tipoComboBox" layoutX="20.0" layoutY="195.0" maxWidth="1.7976931348623157E308" promptText="Todos" styleClass="button" />
             <RadioButton mnemonicParsing="false" onAction="#rankedSelecionada" text="Rankeada" textFill="WHITE">
                <font>
                   <Font size="14.0" />
