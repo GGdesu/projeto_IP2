@@ -3,6 +3,7 @@ package ticTacThink.gui;
 import java.net.URL;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -61,9 +62,17 @@ public class PartidaControlador implements Initializable {
         contador = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                botaoIniciar.setText("Iniciar " + segundos);
-                if (segundos-- == 0) {
-                    iniciar();
+                if (iniciando) {
+                    botaoIniciar.setText("Iniciar " + segundos);
+                    if (segundos-- == 0) {
+                        iniciando = false;
+                    }
+                } else {
+                    atualizarContador();
+                    if (segundos-- == 0) {
+                        fimDoTempo();
+                        segundos = TEMPO_POR_PERGUNTA;
+                    }
                 }
             }
         }));
@@ -126,17 +135,8 @@ public class PartidaControlador implements Initializable {
         popupInicial.setVisible(false);
         barraInferior.setVisible(true);
 
-        // A cada segundo diminui a contagem regressiva de cada pergunta
-        contador.setOnFinished(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-                atualizarContador();
-                if (segundos-- == 0) {
-                    fimDoTempo();
-                    segundos = TEMPO_POR_PERGUNTA;
-                }
-            }
-        });
+        iniciando = false;
+        tempoRestante.setVisible(true);
         proximaPergunta();
     }
 
