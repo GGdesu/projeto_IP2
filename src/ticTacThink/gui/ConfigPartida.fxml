@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -43,11 +43,11 @@
       <VBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Categorias" />
-            <ChoiceBox fx:id="categoriaChoiceBox" prefWidth="150.0" />
+            <ComboBox fx:id="categoriaComboBox" promptText="Todas" styleClass="button" />
             <Label text="Dificuldade" />
-            <ChoiceBox fx:id="dificuldadeChoiceBox" prefWidth="150.0" />
+            <ComboBox fx:id="dificuldadeComboBox" layoutX="20.0" layoutY="40.0" promptText="Todas" styleClass="button" />
             <Label text="Tipo de resposta" />
-            <ChoiceBox fx:id="tipoChoiceBox" prefWidth="150.0" />
+            <ComboBox fx:id="tipoComboBox" layoutX="20.0" layoutY="195.0" promptText="Todos" styleClass="button" />
             <RadioButton mnemonicParsing="false" onAction="#rankedSelecionada" text="Rankeada" textFill="WHITE">
                <font>
                   <Font size="14.0" />

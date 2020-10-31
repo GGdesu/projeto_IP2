@@ -20,11 +20,11 @@ public class Pergunta {
 		this.certa = respostaCerta;
 	}
 
-	boolean responder(String resposta) {
-		return resposta.equalsIgnoreCase(this.respostas[certa]); 
+	public boolean responder(String resposta) {
+		return (resposta != null) ? resposta.equals(this.respostas[certa]) : false;
 	}
 	
-	boolean responder(int indice) {
+	public boolean responder(int indice) {
 		return this.certa == indice;
 	}
 	

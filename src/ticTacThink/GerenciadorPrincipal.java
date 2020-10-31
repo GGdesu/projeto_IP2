@@ -1,6 +1,7 @@
 package ticTacThink;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ticTacThink.aplicacao.ControladorRank;
@@ -13,6 +14,7 @@ public class GerenciadorPrincipal {
 	
 	private static GerenciadorPrincipal instancePrincipal;
 	private static Usuario usuarioON;
+	private static Partida partida;
 
 	private ControladorUsuario controladorUsuario;
 	private ControladorRank controladorRank;
@@ -70,6 +72,8 @@ public class GerenciadorPrincipal {
 		return this.controladorRank.pegarLista();
 	}
 
+
+	//GerenciadorPergunta
 	public List<Pergunta> baixarPerguntas(int quantidade, String categoria, String dificuldade, String tipo) {
 		return gerenciadorPergunta.baixarPerguntas(quantidade, categoria, dificuldade, tipo);
 	}
@@ -78,8 +82,8 @@ public class GerenciadorPrincipal {
 		return gerenciadorPergunta.baixarPerguntas(quantidade);
 	}
 
-	public void salvarPerguntas(List<Pergunta> perguntas, boolean[] acertadas) {
-		gerenciadorPergunta.salvarPerguntas(perguntas, acertadas);
+	public void salvarPerguntas(Collection<PerguntaInfo> perguntas) {
+		gerenciadorPergunta.salvarPerguntas(perguntas);
 	}
 
 	public List<PerguntaInfo> estatisticasPerguntas() {
@@ -89,4 +93,20 @@ public class GerenciadorPrincipal {
 	public List<String> getCategoriasDisponiveis() {
 		return this.CATEGORIAS_DISPONIVEIS;
 	}
+
+	//Partida
+	public void criarPartida(boolean ranqueada, Collection<Pergunta> perguntas) {
+		partida = new Partida(ranqueada, perguntas);
+	}
+
+	public static Partida getPartida() {
+		return partida;
+	}
+
+	public void finalizarPartida() {
+		// TODO: salvar para o usuario atual as perguntas no seu histórico
+		var respondidas = partida.getRespondidas();
+		gerenciadorPergunta.salvarPerguntas(respondidas);
+	}
+
 }

@@ -8,7 +8,6 @@
 }
 
 .botao-grande {
-    -fx-font-family: "system";
     -fx-font-size: 18px;
 }
 
@@ -21,18 +20,29 @@
     -fx-opacity: 30%;
 }
 
+.pergunta,
 .info-tela {
-    -fx-font-family: "candara";
     -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0.0, 0.0);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.5, 0.0, 0.0);
 }
 
 .info {
     -fx-font-weight: bold;
-    -fx-font-family: "candara";
     -fx-font-size: 16px;
+}
+
+.pergunta {
+    -fx-font-family: "system";
+    -fx-font-size: 24px;
+}
+
+.button-resposta {
+    -fx-font-size: 18px;
+    -fx-max-width: Infinity;
+    -fx-width: Infinity;
+    -fx-background-radius: 10px;
 }
 
 .obsevacao {
@@ -43,15 +53,25 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
+.tempo-esgotado {
+    -fx-background-radius: 10% 10% 10% 10%;
+}
+
 .gradient-resposta-certa {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #0e7500);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f0f0f0, #0e7500);
 }
+
+.tempo-esgotado,
 .gradient-resposta-errada {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #da0000);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f0f0f0, #da0000);
 }
+
 .gradient-partida {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f3f3f3, #011b90);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #f0f0f0, #011b90);
 }
+
+
+/* TABELA */
 
 .table-view {
     -fx-background-color: transparent;
