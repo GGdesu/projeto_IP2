@@ -42,15 +42,6 @@ public class EditarPerfilController implements Initializable{
 
 	@FXML
 	private ToggleGroup grupo;
-	
-	@FXML
-    private RadioButton rbMasc;
-	
-	@FXML
-    private RadioButton rbFem;
-
-    @FXML
-    private RadioButton rbNeutro;
 
 	@FXML
 	void voltar() {
@@ -111,7 +102,7 @@ public class EditarPerfilController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		carregarPaises();
 		carregarValores();
-		System.out.println("Informações carregadas com sucesso!");
+		System.out.println("Informações para edição de perfil carregadas com sucesso!");
 	}
 
 	private void carregarValores() {
@@ -120,29 +111,9 @@ public class EditarPerfilController implements Initializable{
 		pfConfSenha.setText(GerenciadorPrincipal.getUsuarioInstancia().getSenha());
 		cbPais.setValue(GerenciadorPrincipal.getUsuarioInstancia().getPais());
 		datePicker.setValue(stringParaLocalDate());
-		//atualToggleGroup();
 		
 	}
 	
-	//Não to conseguindo fazer com que essa função funcione no editar perfil
-	//ainda hoje vejo ela, POREM DE RESTO ELE ESTÁ BEM, MAS FALTA TESTAR MAIS O EDITAR PERFIL
-	private void atualToggleGroup() {
-		RadioButton rb = null;
-		rb.setText(GerenciadorPrincipal.getUsuarioInstancia().getGenero());
-		
-		if(rb.getText().equals(rbFem.getText())) {
-			rbFem.setSelected(true);
-			
-		}else if(rb.getText().equals(rbMasc.getText())) {
-			rbMasc.setSelected(true);
-			
-		}else if(rb.getText().equals(rbNeutro.getText())) {
-			rbNeutro.setSelected(true);
-			//grupo.getProperties().g
-			
-		}
-		
-	}
 	
 	private LocalDate stringParaLocalDate() {
 		String pattern = "dd/MM/yyyy";
