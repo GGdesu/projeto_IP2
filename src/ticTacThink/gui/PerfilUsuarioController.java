@@ -8,31 +8,31 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import ticTacThink.GerenciadorPrincipal;
 
-public class PerfilUsuarioController implements Initializable{
+public class PerfilUsuarioController implements Initializable {
 
 	@FXML
-	private Label lbNome;
+	private Label labelNome;
 
 	@FXML
-	private Label lbIdade;
+	private Label labelNasc;
 
 	@FXML
-	private Label lbGenero;
+	private Label labelGen;
 
 	@FXML
-	private Label lbPais;
+	private Label labelPais;
 
 	@FXML
-	private Label lbPontuacao;
+	private Label labelPon;
 
 	@FXML
-	private Label lbEmail;
-	
+	private Label labelEmail;
+
 	@FXML
 	void voltar() {
 		App.mudarTela("Menu");
 	}
-	
+
 	@FXML
 	void editarPerfil() {
 		App.mudarTela("EditarPerfil");
@@ -40,15 +40,18 @@ public class PerfilUsuarioController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		lbNome.setText(GerenciadorPrincipal.getUsuarioInstancia().getNome());
-		lbIdade.setText(String.valueOf(GerenciadorPrincipal.getUsuarioInstancia().getIdade()));
-		lbGenero.setText(GerenciadorPrincipal.getUsuarioInstancia().getGenero());
-		lbPais.setText(GerenciadorPrincipal.getUsuarioInstancia().getPais());
-		lbPontuacao.setText(String.valueOf(GerenciadorPrincipal.getUsuarioInstancia().getPontuacao()));
-		lbEmail.setText(GerenciadorPrincipal.getUsuarioInstancia().getEmail());
-		
+		carregarValores();
+		System.out.println("Informações carregadas com sucesso!");
 	}
-	
-	
+
+	private void carregarValores() {
+		
+		labelNome.setText(GerenciadorPrincipal.getUsuarioInstancia().getNome());
+		labelNasc.setText(GerenciadorPrincipal.getUsuarioInstancia().getDataNasc());
+		labelGen.setText(GerenciadorPrincipal.getUsuarioInstancia().getGenero());
+		labelPais.setText(GerenciadorPrincipal.getUsuarioInstancia().getPais());
+		labelPon.setText(String.valueOf(GerenciadorPrincipal.getUsuarioInstancia().getPontuacao()));
+		labelEmail.setText(GerenciadorPrincipal.getUsuarioInstancia().getEmail());
+	}
 
 }

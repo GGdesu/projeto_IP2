@@ -8,18 +8,18 @@ public class Usuario {
 	private int pontuacao = 0;
 	private String pais;
 	private String genero;
-	private int idade;
+	private String dataNasc;
 
 	//CONSTRUCTOR
 	public Usuario() {}
 	
-	public Usuario(String nome, String senha, String email, String pais, String genero, String idade) {
+	public Usuario(String nome, String senha, String email, String pais, String genero, String dataNasc) {
 		this.nome = nome;
 		this.senha = senha;
 		this.email = email;
 		this.pais = pais;
 		this.genero = genero;
-		this.idade = Integer.parseInt(idade);
+		this.dataNasc = dataNasc;
 	}
 
 
@@ -90,17 +90,17 @@ public class Usuario {
 		this.genero = genero;
 	}
 
-	public int getIdade() {
-		return idade;
+	public String getDataNasc() {
+		return dataNasc;
 	}
 
-	public void setIdade(int idade) {
-		this.idade = idade;
+	public void setDataNasc(String dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 
 	@Override
 	public String toString() {
-		return "Usuario [email=" + email + ", genero=" + genero + ", idade=" + idade + ", nome=" + nome + ", pais="
+		return "Usuario [email=" + email + ", genero=" + genero + ", Data de Nascimento=" + dataNasc + ", nome=" + nome + ", pais="
 				+ pais + ", pontuacao=" + pontuacao + ", senha=" + senha + "]";
 	}
 	

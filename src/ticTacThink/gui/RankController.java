@@ -37,6 +37,7 @@ public class RankController implements Initializable {
 	void voltar() {
 		App.mudarTela("Menu");
 	}
+	
 
 	@FXML
 	void estatisticasPergunta() {
@@ -61,5 +62,6 @@ public class RankController implements Initializable {
 		obsRank = FXCollections.observableArrayList(rank);
 
 		tvRank.setItems(obsRank);
+		
 	}
 }
