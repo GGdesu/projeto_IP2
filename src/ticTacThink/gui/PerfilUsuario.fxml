@@ -25,7 +25,9 @@
       <HBox BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#voltar" text="Voltar" />
-            <Pane HBox.hgrow="ALWAYS" />
+            <Pane prefHeight="30.0" prefWidth="113.0" />
+            <Button mnemonicParsing="false" onAction="#excluirConta" text="Excluir conta" />
+            <Pane prefHeight="30.0" prefWidth="104.0" />
             <Button mnemonicParsing="false" onAction="#editarPerfil" text="Editar Perfil" />
          </children>
          <padding>

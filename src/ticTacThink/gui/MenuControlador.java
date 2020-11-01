@@ -26,5 +26,6 @@ public class MenuControlador {
     void logout() {
     	GerenciadorPrincipal.getInstance().logout();
         App.mudarTela("Login");
+        System.out.println("Logout realizado com sucesso!");
     }
 }

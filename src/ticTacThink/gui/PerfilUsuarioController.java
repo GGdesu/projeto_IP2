@@ -37,6 +37,15 @@ public class PerfilUsuarioController implements Initializable {
 	void editarPerfil() {
 		App.mudarTela("EditarPerfil");
 	}
+	
+	//pensando em colocar uma caixa de confirmação
+	@FXML
+    void excluirConta() {
+		GerenciadorPrincipal.getInstance().removerConta(GerenciadorPrincipal.getUsuarioInstancia());
+		GerenciadorPrincipal.getInstance().logout();
+		System.out.println("Conta excluída com sucesso!");
+		App.mudarTela("Login");
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

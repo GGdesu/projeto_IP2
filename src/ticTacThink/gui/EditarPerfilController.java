@@ -102,7 +102,7 @@ public class EditarPerfilController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		carregarPaises();
 		carregarValores();
-		System.out.println("Informações carregadas com sucesso!");
+		System.out.println("Informações para edição de perfil carregadas com sucesso!");
 	}
 
 	private void carregarValores() {

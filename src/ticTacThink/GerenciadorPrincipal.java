@@ -65,6 +65,10 @@ public class GerenciadorPrincipal {
 		return this.controladorUsuario.verificarExistenciaUsuario(email);
 	}
 	
+	public void removerConta(Usuario usuario) {
+		this.controladorUsuario.remover(usuario);
+	}
+	
 	//RANK
 	public void verificarRanker(Rank ranker) {
 		this.controladorRank.verificaPontuacao(ranker);
