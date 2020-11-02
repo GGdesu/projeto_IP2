@@ -3,12 +3,9 @@ package ticTacThink.gui;
 import java.net.URL;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,7 +25,6 @@ public class PartidaControlador implements Initializable {
     private int segundos = TEMPO_PARA_INICIAR;
     private Pergunta perguntaAtual;
     private Timeline contador;
-    private boolean iniciando = true;
 
     @FXML private Label perguntaLabel;
     @FXML private VBox respostasVBox;
@@ -57,28 +53,14 @@ public class PartidaControlador implements Initializable {
         categoria.setText(GerenciadorPrincipal.getPartida().getCategoria());
         dificuldade.setText(GerenciadorPrincipal.getPartida().getDificuldade());
 
-
-        // A cada Segundo diminui contagem para iniciar a partida
-        contador = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (iniciando) {
-                    botaoIniciar.setText("Iniciar " + segundos);
-                    if (segundos-- == 0) {
-                        iniciando = false;
-                    }
-                } else {
-                    atualizarContador();
-                    if (segundos-- == 0) {
-                        fimDoTempo();
-                        segundos = TEMPO_POR_PERGUNTA;
-                    }
-                }
-            }
-        }));
-        contador.setCycleCount(TEMPO_POR_PERGUNTA + 1);
         popup.getStyleClass().add("popup-info");
         popupInicial.setVisible(true);
+
+        // A cada Segundo diminui contagem no botao para iniciar a partida
+        contador = new Timeline(new KeyFrame(Duration.seconds(1), 
+                t -> botaoIniciar.setText("Iniciar " + segundos--)));
+        contador.setCycleCount(TEMPO_PARA_INICIAR + 1);
+        contador.setOnFinished(t -> iniciar());
         contador.playFromStart();
     }
 
@@ -92,15 +74,11 @@ public class PartidaControlador implements Initializable {
 
     private void fimDoTempo() {
         System.out.println("Tempo Esgotado!");
-
+        
+        segundos = TEMPO_POR_PERGUNTA;
         mostrarPopup(true, "Tempo Esgotado!");
         popup.getStyleClass().set(0, "popup-info");
         GerenciadorPrincipal.getPartida().responderPergunta(null);
-    }
-
-
-    private void atualizarContador() {
-        tempoRestante.setText(String.valueOf(segundos));
     }
 
 
@@ -116,9 +94,6 @@ public class PartidaControlador implements Initializable {
             popup.getStyleClass().set(0, "popup-resposta-errada");
             mostrarPopup(true, "Você Errou");
         }
-        for (var a : popup.getStyleClass()) {
-            System.out.println(a);
-        }
     }
 
 
@@ -132,10 +107,13 @@ public class PartidaControlador implements Initializable {
         System.out.println("Iniciando Partida.");
         
         contador.stop();
+        contador = new Timeline(new KeyFrame(Duration.seconds(1),
+                t -> tempoRestante.setText(String.valueOf(segundos--))));
+        contador.setCycleCount(TEMPO_POR_PERGUNTA + 1);
+        contador.setOnFinished(t -> fimDoTempo());
+        
         popupInicial.setVisible(false);
         barraInferior.setVisible(true);
-
-        iniciando = false;
         tempoRestante.setVisible(true);
         proximaPergunta();
     }
@@ -157,9 +135,7 @@ public class PartidaControlador implements Initializable {
         Button popupButton = (Button) popup.getChildren().get(1);
         popupButton.getStyleClass().add("botao-grande");
         popupButton.setText("Voltar ao Menu");
-        popupButton.setOnAction(a -> {
-            App.mudarTela("Menu");
-        });
+        popupButton.setOnAction(a -> App.mudarTela("Menu"));
 
     }
 
@@ -181,12 +157,7 @@ public class PartidaControlador implements Initializable {
         
         for (String text : perguntaAtual.getRespostas()) {
             var button = new Button(text);
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    responder(text);
-                }
-            });
+            button.setOnAction(b -> responder(text));
             button.getStyleClass().add("button-resposta");
             respostasVBox.getChildren().add(button);
         }

@@ -72,9 +72,6 @@ public class GerenciadorPrincipal {
 	}
 	
 	//RANK
-	public void verificarRanker(Rank ranker) {
-		this.controladorRank.verificaPontuacao(ranker);
-	}
 	
 	public ArrayList<Rank> rank() {
 		return this.controladorRank.pegarLista();
@@ -112,7 +109,13 @@ public class GerenciadorPrincipal {
 	}
 
 	public void finalizarPartida() {
-		// TODO: salvar para o usuario atual as perguntas no seu histórico
+		if (partida.getPontuacao() > usuarioON.getPontuacao()) {
+			System.out.println("Adicionando "+ usuarioON.getNome() +" ao Ranking.");
+
+			usuarioON.setPontuacao(partida.getPontuacao());
+			Rank ranker = new Rank(usuarioON.getEmail(), usuarioON.getNome(), partida.getPontuacao());
+			controladorRank.adicionar(ranker);
+		}
 		var respondidas = partida.getRespondidas();
 		gerenciadorPergunta.salvarPerguntas(respondidas);
 	}

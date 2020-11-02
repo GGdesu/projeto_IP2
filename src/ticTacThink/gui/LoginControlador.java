@@ -41,13 +41,8 @@ public class LoginControlador {
 	}
 
 	@FXML
-	void sair() {
-
-	}
-
-	@FXML
 	void cadastrar() {
-		App.mudarTela("Cadastro");
+		App.abrirPopup("Cadastro");
 	}
 
 }

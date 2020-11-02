@@ -34,10 +34,13 @@ public class Pergunta {
 							"Tipo: " + this.tipo + "\n" +
 							"Dificuldade: " + this.dificuldade + "\n" + 
 							"Alternativas:\n";
-		if (respostas != null)
-			for (String string : respostas)
-				resultado += "\t" + string + "\n";
+		for (String string : respostas)
+			resultado += "\t" + string + "\n";
 		return resultado;
+	}
+
+	public boolean equals(Pergunta outra) {
+		return this.texto.equals(outra.getTexto());
 	}
 	
 	// Getters

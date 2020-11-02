@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -17,27 +16,40 @@ import ticTacThink.aplicacao.beans.Rank;
 
 public class RankController implements Initializable {
 
-	@FXML
-	private TableView<Rank> tvRank;
+	// classe que representa uma linha de informação sobre rank
+	public class RankLinha {
+		private String nome;
+		private Integer pontuacao;
+		private Integer posicao;
 
-	private ObservableList<Rank> obsRank;
-	
+		public RankLinha(String nome, Integer pontuacao, Integer posicao) {
+			this.nome = nome;
+			this.pontuacao = pontuacao;
+			this.posicao = posicao;
+		}
+		public String getNome() { return nome; }
+		public Integer getPontuacao() { return pontuacao; }
+		public Integer getPosicao() { return posicao; }
+	}
+
+	@FXML
+	private TableView<RankLinha> tvRank;
+
 	private List<Rank> rank = new ArrayList<>();
 
 	@FXML
-	private TableColumn<Rank, String> nomeCol;
+	private TableColumn<RankLinha, String> nomeCol;
 
 	@FXML
-	private TableColumn<Rank, Integer> posCol;
+	private TableColumn<RankLinha, Integer> posCol;
 
 	@FXML
-	private TableColumn<Rank, Integer> pontCol;
-	
+	private TableColumn<RankLinha, Integer> pontCol;
+
 	@FXML
 	void voltar() {
 		App.mudarTela("Menu");
 	}
-	
 
 	@FXML
 	void estatisticasPergunta() {
@@ -52,16 +64,17 @@ public class RankController implements Initializable {
 	private void carregarRank() {
 
 		nomeCol.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		
 		posCol.setCellValueFactory(new PropertyValueFactory<>("posicao"));
-		
 		pontCol.setCellValueFactory(new PropertyValueFactory<>("pontuacao"));
 		
 		rank = GerenciadorPrincipal.getInstance().rank();
-		
-		obsRank = FXCollections.observableArrayList(rank);
 
-		tvRank.setItems(obsRank);
-		
+		RankLinha[] lista = new RankLinha[rank.size()];
+		int i = 0;
+		for (Rank r : rank) {
+			lista[i] = new RankLinha(r.getNome(), r.getPontuacao(), i+1);
+			i++;
+		}
+		tvRank.setItems(FXCollections.observableArrayList(lista));
 	}
 }

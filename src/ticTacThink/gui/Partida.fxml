@@ -47,40 +47,40 @@
                   <Button mnemonicParsing="false" onAction="#proximaPergunta" text="Proxima Pergunta" />
                </children>
             </VBox>
-            <HBox fx:id="popupInicial" alignment="CENTER" maxHeight="400.0" maxWidth="484.0" prefHeight="400.0" prefWidth="435.0" spacing="30.0" styleClass="popup-info">
+            <HBox fx:id="popupInicial" alignment="CENTER" spacing="20.0" styleClass="popup-info">
                <children>
-                  <VBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER_LEFT" maxWidth="210.0" prefWidth="210.0">
                      <children>
                         <Label styleClass="info-tela" text="Categoria selecionada:" />
-                        <Label fx:id="categoria" layoutX="10.0" layoutY="70.0" styleClass="info" text="&lt;categoria&gt;" wrapText="true">
+                        <Label fx:id="categoria" alignment="TOP_LEFT" layoutX="10.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefWidth="210.0" styleClass="info" text="&lt;categoria&gt;" wrapText="true" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </Label>
                         <Label layoutX="10.0" layoutY="30.0" styleClass="info-tela" text="Dificuldade selecionada:" />
-                        <Label fx:id="dificuldade" layoutX="10.0" layoutY="10.0" styleClass="info" text="&lt;dificuldade&gt;">
+                        <Label fx:id="dificuldade" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" styleClass="info" text="&lt;dificuldade&gt;">
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </Label>
                         <Label styleClass="info-tela" text="Tipo selecionado:" wrapText="true" />
-                        <Label fx:id="tipo" layoutX="10.0" layoutY="70.0" styleClass="info" text="&lt;tipo&gt;">
+                        <Label fx:id="tipo" alignment="TOP_LEFT" layoutX="10.0" layoutY="70.0" styleClass="info" text="&lt;tipo&gt;">
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </Label>
                      </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </VBox>
-                  <VBox alignment="CENTER" maxHeight="300.0" maxWidth="300.0" spacing="50.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER" spacing="50.0">
                      <children>
                         <Label styleClass="pergunta" text="Preparado?" />
                         <Button fx:id="botaoIniciar" mnemonicParsing="false" onAction="#iniciar" styleClass="botao-grande" text="Iniciar 5" />
                      </children>
                   </VBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
             </HBox>
          </children>
       </StackPane>
@@ -92,17 +92,18 @@
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <top>
-      <VBox spacing="20.0" BorderPane.alignment="TOP_RIGHT">
+      <VBox spacing="30.0" BorderPane.alignment="TOP_RIGHT">
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </BorderPane.margin>
          <children>
-            <Label alignment="TOP_RIGHT" maxWidth="1.7976931348623157E308" styleClass="titulo-marca-dagua" text="Tic Tac Think!">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="tempoRestante" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" styleClass="info-tela" />
+            <HBox>
+               <children>
+                  <Label fx:id="tempoRestante" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" styleClass="timer" />
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <Label alignment="TOP_RIGHT" maxWidth="1.7976931348623157E308" styleClass="titulo-marca-dagua" text="Tic Tac Think!" />
+               </children>
+            </HBox>
             <Label fx:id="perguntaLabel" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" styleClass="pergunta" wrapText="true">
                <VBox.margin>
                   <Insets />
