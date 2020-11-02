@@ -9,9 +9,9 @@ public class Partida {
 
     // Parametros selecionados
     // serão null caso não seja selecionado
-    private String categoria;
-    private String dificuldade;
-    private String tipo;
+    private final String categoria;
+    private final String dificuldade;
+    private final String tipo;
 
     private int pontuacao;
 
@@ -70,24 +70,12 @@ public class Partida {
         return dificuldade;
     }
 
-    public void setDificuldade(String dificuldade) {
-        this.dificuldade = dificuldade;
-    }
-
     public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public String getTipo() {
         return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public int getPontuacao() {

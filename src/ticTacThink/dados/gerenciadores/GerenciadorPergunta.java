@@ -15,14 +15,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-
-import org.jsoup.Jsoup;
 
 import ticTacThink.aplicacao.beans.Pergunta;
 import ticTacThink.aplicacao.beans.PerguntaInfo;
@@ -116,11 +115,11 @@ public class GerenciadorPergunta {
 				List<String> sorteador = new ArrayList<String>(4);
 				sorteador.add(respostaCerta);
 				for (JsonElement resposta : respostasErradas)
-				sorteador.add(resposta.getAsString());
+					sorteador.add(resposta.getAsString());
 				Collections.shuffle(sorteador);
 				
 				// Convertendo para array
-				respostas = new String[4];
+				respostas = new String[2];
 				respostas = sorteador.toArray(respostas);
 			}
 			
@@ -131,12 +130,18 @@ public class GerenciadorPergunta {
 					break;
 				}
 			}
+
+			// Decodificando de base64
+			var decoder = Base64.getDecoder();
+			tipo = new String(decoder.decode(tipo));
+			categoria = new String(decoder.decode(categoria));
+			dificuldade = new String(decoder.decode(dificuldade));
+			textoPergunta = new String(decoder.decode(textoPergunta));
 			
-			// Correção de elementos HTML
-			textoPergunta = Jsoup.parse(textoPergunta).text();
 			for (int i = 0; i < respostas.length; i++) {
-				respostas[i] = Jsoup.parse(respostas[i]).text();
+				respostas[i] = new String(decoder.decode(respostas[i]));
 			}
+			
 			// Adicionando a lista
 			perguntas.add(new Pergunta(categoria, tipo, dificuldade, textoPergunta, respostas, indiceRespostaCerta));
 		} 
@@ -144,8 +149,8 @@ public class GerenciadorPergunta {
 	}
 	private String criarLink(int quantidade, String categoria, String dificuldade, String tipo) {
 		assert(quantidade > 0);
-		String link = "https://opentdb.com/api.php?";
-		link += "amount="+quantidade;
+		String link = "https://opentdb.com/api.php?encode=base64";
+		link += "&amount="+quantidade;
 		if (categoria != null)
 			link += "&category="+this.categoriasID.get(categoria);
 		if (dificuldade != null)

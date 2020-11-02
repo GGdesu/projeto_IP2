@@ -1,6 +1,5 @@
 module ticTacThink {
 	requires com.google.gson;
-	requires org.jsoup;
 	requires javafx.controls;
 	requires javafx.graphics;
 	requires javafx.fxml;
