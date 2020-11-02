@@ -118,7 +118,7 @@ public class CadastroController implements Initializable {
 				Alert alerta = new Alert(AlertType.ERROR);
 				alerta.setHeaderText("Email nulo ou inválido");
 				alerta.setTitle("Erro");
-				alerta.setContentText("Email nulo ou inválido, digite um email com @, '.com' e sem deixar espaços");
+				alerta.setContentText("Email nulo ou inválido, digite um email sem pontos antes do '@' com '.com' no final, sem deixar espaços, \nex: teste@email.com");
 				alerta.show();
 			}
 			
