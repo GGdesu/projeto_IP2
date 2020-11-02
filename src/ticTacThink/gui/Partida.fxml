@@ -92,17 +92,18 @@
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <top>
-      <VBox spacing="20.0" BorderPane.alignment="TOP_RIGHT">
+      <VBox spacing="30.0" BorderPane.alignment="TOP_RIGHT">
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </BorderPane.margin>
          <children>
-            <Label alignment="TOP_RIGHT" maxWidth="1.7976931348623157E308" styleClass="titulo-marca-dagua" text="Tic Tac Think!">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Label>
-            <Label fx:id="tempoRestante" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" styleClass="info-tela" />
+            <HBox>
+               <children>
+                  <Label fx:id="tempoRestante" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" styleClass="timer" />
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <Label alignment="TOP_RIGHT" maxWidth="1.7976931348623157E308" styleClass="titulo-marca-dagua" text="Tic Tac Think!" />
+               </children>
+            </HBox>
             <Label fx:id="perguntaLabel" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" styleClass="pergunta" wrapText="true">
                <VBox.margin>
                   <Insets />

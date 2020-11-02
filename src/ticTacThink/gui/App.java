@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 public class App extends Application {
 
     private static Stage stage;
+    private static Stage popup;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -29,11 +30,14 @@ public class App extends Application {
     }
     
     public static void abrirPopup(String fxml) {
-        Stage popup = new Stage();
+        popup = new Stage();
         popup.setTitle(fxml.replaceAll("([A-Z][a-z]+)", "$1 "));
         popup.setScene(new Scene(carregarFXML(fxml)));
         popup.setResizable(false);
         popup.show();
+    }
+    public static void fecharPopup() {
+        popup.close();
     }
 
     public static void mudarTela(String fxml) {

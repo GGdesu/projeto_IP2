@@ -42,7 +42,7 @@
    <left>
       <VBox prefWidth="250.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Categorias" />
+            <Label text="Categoria" />
             <ComboBox fx:id="categoriaComboBox" maxWidth="1.7976931348623157E308" promptText="Todas" styleClass="button" />
             <Label text="Dificuldade" />
             <ComboBox fx:id="dificuldadeComboBox" layoutX="20.0" layoutY="40.0" maxWidth="1.7976931348623157E308" promptText="Todas" styleClass="button" />

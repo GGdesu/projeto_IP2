@@ -50,7 +50,7 @@ public class CadastroController implements Initializable {
 
 	@FXML
 	void voltar() {
-		App.mudarTela("Login");
+		App.fecharPopup();
 	}
 
 	@FXML
@@ -69,7 +69,7 @@ public class CadastroController implements Initializable {
 						
 						GerenciadorPrincipal.getInstance().cadastrarUsuario(usuario);
 						System.out.println("Usuario cadastrado com sucesso!");
-						
+						voltar();
 					}else {
 						
 						Alert alerta = new Alert(AlertType.ERROR);

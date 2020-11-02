@@ -20,12 +20,16 @@
     -fx-opacity: 30%;
 }
 
+.timer,
 .pergunta,
 .info-tela {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.5, 0.0, 0.0);
+}
+.timer {
+    -fx-font-size: 40px;
 }
 
 .info {

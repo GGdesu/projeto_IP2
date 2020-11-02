@@ -45,7 +45,7 @@ public class EditarPerfilController implements Initializable{
 
 	@FXML
 	void voltar() {
-		App.mudarTela("PerfilUsuario");
+		App.fecharPopup();
 	}
 	
 	@FXML

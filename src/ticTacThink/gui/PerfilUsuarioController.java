@@ -35,7 +35,7 @@ public class PerfilUsuarioController implements Initializable {
 
 	@FXML
 	void editarPerfil() {
-		App.mudarTela("EditarPerfil");
+		App.abrirPopup("EditarPerfil");
 	}
 	
 	//pensando em colocar uma caixa de confirmação
