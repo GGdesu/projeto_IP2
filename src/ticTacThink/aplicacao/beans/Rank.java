@@ -5,16 +5,14 @@ public class Rank {
 	private String email;
 	private String nome;
 	private int pontuacao;
-	private int posicao;
 	
 	//construtor
 	public Rank() {}
 	
-	public Rank(String email, String nome, String pontuacao, String posicao) {
+	public Rank(String email, String nome, int pontuacao) {
 		this.email = email;
 		this.nome = nome;
-		this.pontuacao = Integer.parseInt(pontuacao);
-		this.posicao = Integer.parseInt(posicao);
+		this.pontuacao = pontuacao;
 	}
 
 	//getters & setters
@@ -42,19 +40,8 @@ public class Rank {
 		this.pontuacao = pontuacao;
 	}
 
-	
-	public int getPosicao() {
-		return posicao;
-	}
+	public boolean equals(Rank rank) {
 
-	public void setPosicao(int posicao) {
-		this.posicao = posicao;
-	}
-
-	@Override
-	public boolean equals(Object objRank) {
-		Rank rank = (Rank) objRank;
-		
 		if(rank != null) {
 			return getEmail().contains(rank.getEmail());
 		
@@ -63,6 +50,11 @@ public class Rank {
 			
 		}
 				
+	}
+
+	@Override
+	public String toString() {
+		return "Rank [email=" + email + ", nome=" + nome + ", pontuacao=" + pontuacao + "]";
 	}
 	
 

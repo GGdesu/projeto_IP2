@@ -1,11 +1,11 @@
 package ticTacThink.dados.gerenciadores;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import ticTacThink.aplicacao.beans.Rank;
 import ticTacThink.dados.IGerenciadorRank;
@@ -47,9 +47,9 @@ public class GerenciadorRank implements IGerenciadorRank {
 
 	@Override
 	public void atualizar(Rank ranker) {
-		this.rank.set(ranker.getPosicao(), ranker);
+		int posicao = verificarPosicao(ranker);
+		this.rank.set(posicao, ranker);
 		atualizarArquivo();
-
 	}
 
 	@Override
@@ -78,20 +78,24 @@ public class GerenciadorRank implements IGerenciadorRank {
 
 	@Override
 	public int verificarPosicao(Rank ranker) {
-		// Ele come�a com 100 pois � uma pontua��o que n�o entra no rank. (rank pos 0 -
-		// 99)
-		int pos = 100;
-
-		for (Rank r : this.rank) {
-			if ((ranker.getPontuacao() >= r.getPontuacao()) && (pos > r.getPosicao())) {
-				pos = r.getPosicao();
+		for (int i = 0; i < rank.size(); i++) {
+			if (ranker.getEmail().equals(rank.get(i).getEmail())) {
+				return i;
 			}
 		}
-		return pos;
+		return -1; // não encontrado
 	}
 
 	@Override
 	public ArrayList<Rank> getRank() {
+		this.rank.sort(new Comparator<Rank>(){
+			@Override
+			public int compare(Rank o1, Rank o2) {
+				// organizando de forma reversa: maior para o menor
+				return o2.getPontuacao() - o1.getPontuacao();
+			}
+			
+		});
 		return this.rank;
 	}
 
@@ -105,8 +109,6 @@ public class GerenciadorRank implements IGerenciadorRank {
 				csvWriter.append(r.getNome());
 				csvWriter.append(",");
 				csvWriter.append(String.valueOf(r.getPontuacao()));
-				csvWriter.append(",");
-				csvWriter.append(String.valueOf(r.getPosicao()));
 				csvWriter.append("\n");
 			}
 
@@ -125,16 +127,15 @@ public class GerenciadorRank implements IGerenciadorRank {
 
 			BufferedReader reader = new BufferedReader(new FileReader(caminho));
 
-			String linha = null;
+			String linha = reader.readLine();
 
 			try {
-				
-				while ((linha = reader.readLine()) != null) {
-					
+				while (linha != null && !linha.isEmpty()) {
 					String[] dados = linha.split(",");
-					Rank ranker = new Rank(dados[0], dados[1], dados[2], dados[3]);
+					Rank ranker = new Rank(dados[0], dados[1], Integer.parseInt(dados[2]));
 					this.rank.add(ranker);
 
+					linha = reader.readLine();
 				}
 
 				reader.close();

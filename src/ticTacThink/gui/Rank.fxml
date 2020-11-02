@@ -27,7 +27,7 @@
       </HBox>
    </bottom>
    <center>
-      <TableView fx:id="tvRank" mouseTransparent="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tvRank" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
             <TableColumn fx:id="posCol" prefWidth="75.0" text="Posição" />
           <TableColumn fx:id="nomeCol" prefWidth="75.0" text="Nome" />
